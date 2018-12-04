@@ -6,3 +6,5 @@
 
 日常数据展示\(涉及数据库查询，需要配置dbhost、dbpasswd、dausername、dbdatabase\)
 
+環境安裝（nginx/tomcat/java....\)
+
