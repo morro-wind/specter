@@ -1,3 +1,7 @@
-# Table of content
+# Summary
 
+* [Introduction](README.md)
 * [First Chapter](chapter1.md)
+* [Tool](tool.md)
+* [system setting](system-setting.md)
+
