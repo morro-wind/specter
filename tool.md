@@ -6,17 +6,21 @@
 
 ##### Git Parameter 参数化构建过程 {#3}
 
-
-
-
-
 # CentOS 7下搭建高可用集群（pcs，pacemaker，corosync，fence-agents-all） {#article_title}
 
-https://linux.cn/article-3963-1.html
+[https://linux.cn/article-3963-1.html](https://linux.cn/article-3963-1.html)
 
-https://access.redhat.com/documentation/zh-cn/red\_hat\_enterprise\_linux/7/html/high\_availability\_add-on\_reference/s1-pcsfullconfig-HAAR
+[https://access.redhat.com/documentation/zh-cn/red\_hat\_enterprise\_linux/7/html/high\_availability\_add-on\_reference/s1-pcsfullconfig-HAAR](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/high_availability_add-on_reference/s1-pcsfullconfig-HAAR)
 
-https://www.ibm.com/developerworks/cn/linux
+[https://www.ibm.com/developerworks/cn/linux](https://www.ibm.com/developerworks/cn/linux)
+
+
+
+# Linux 集群大全 {#ibm-pagetitle-h1}
+
+https://www.ibm.com/developerworks/cn/linux/cluster/lw-clustering.html
+
+https://www.ibm.com/developerworks/cn/linux/cluster/index.html
 
 
 
