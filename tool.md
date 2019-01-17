@@ -30,3 +30,13 @@ curl -G -d "username=name&password=pwd&verificationCode=1111&type=saveGateway" -
 
 curl -d "username=name&password=pwd&verificationCode=1111&type=saveGateway" -iL -H "Accept-Encoding: gzip,deflate" 127.0.0.1
 
+
+
+## postgresql
+
+\# CLOSE DATABASE CONNECT
+
+$BIN -h $HOST -U $USER -d postgres -c "SELECT pg\_terminate\_backend\(pg\_stat\_activity.pid\) FROM pg\_stat\_activity WHERE datname='$DB1' AND pid&lt;&gt;pg\_backend\_pid\(\);"
+
+
+
