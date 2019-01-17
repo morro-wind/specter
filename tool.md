@@ -14,13 +14,23 @@
 
 [https://www.ibm.com/developerworks/cn/linux](https://www.ibm.com/developerworks/cn/linux)
 
-
-
 # Linux 集群大全 {#ibm-pagetitle-h1}
 
-https://www.ibm.com/developerworks/cn/linux/cluster/lw-clustering.html
+[https://www.ibm.com/developerworks/cn/linux/cluster/lw-clustering.html](https://www.ibm.com/developerworks/cn/linux/cluster/lw-clustering.html)
 
-https://www.ibm.com/developerworks/cn/linux/cluster/index.html
+[https://www.ibm.com/developerworks/cn/linux/cluster/index.html](https://www.ibm.com/developerworks/cn/linux/cluster/index.html)
+
+
+
+## curl
+
+-H "Accept-Encoding: gzip,deflate" 添加壓縮請求頭
+
+-IL/iL  顯示Content-Encoding: gzip響應
+
+curl -G -d "username=SYS\_SUPER&password=12345678@abc&verificationCode=9999&type=saveGateway" -IL -H "Accept-Encoding: gzip,deflate" 10.0.21.144:8380/manager/route/
+
+curl -d "username=SYS\_SUPER&password=12345678@abc&verificationCode=9999&type=saveGateway" -iL -H "Accept-Encoding: gzip,deflate" 10.0.21.144:8380/manager/route/
 
 
 
