@@ -20,17 +20,13 @@
 
 [https://www.ibm.com/developerworks/cn/linux/cluster/index.html](https://www.ibm.com/developerworks/cn/linux/cluster/index.html)
 
-
-
 ## curl
 
 -H "Accept-Encoding: gzip,deflate" 添加壓縮請求頭
 
 -IL/iL  顯示Content-Encoding: gzip響應
 
-curl -G -d "username=SYS\_SUPER&password=12345678@abc&verificationCode=9999&type=saveGateway" -IL -H "Accept-Encoding: gzip,deflate" 10.0.21.144:8380/manager/route/
+curl -G -d "username=name&password=pwd&verificationCode=1111&type=saveGateway" -IL -H "Accept-Encoding: gzip,deflate" 127.0.0.1
 
-curl -d "username=SYS\_SUPER&password=12345678@abc&verificationCode=9999&type=saveGateway" -iL -H "Accept-Encoding: gzip,deflate" 10.0.21.144:8380/manager/route/
-
-
+curl -d "username=name&password=pwd&verificationCode=1111&type=saveGateway" -iL -H "Accept-Encoding: gzip,deflate" 127.0.0.1
 
