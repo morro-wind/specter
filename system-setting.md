@@ -25,5 +25,7 @@ hadoop  -       nproc   32000
 session required  pam_limits.so
 ```
 
+系統支持的協議類型記錄在/etc/protocols 文件中
 
+系統支持的服務記錄在/etc/services 文件中
 
