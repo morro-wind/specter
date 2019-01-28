@@ -29,3 +29,5 @@ session required  pam_limits.so
 
 系統支持的服務記錄在/etc/services 文件中
 
+錯誤號的錯誤信息記錄在/usr/include/asm-generic/errno-base.h 錯誤定義文件中
+
