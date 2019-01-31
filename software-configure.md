@@ -19,6 +19,10 @@ location ^~ /app {
 
 Always include`fastcgi_params`before any`fastcgi_param`statements to avoid them being silently overwritten by the contents of the include file. See[this document](http://nginx.org/en/docs/http/ngx_http_core_module.html#var_request_filename)for details.
 
+## nginx rewrite
+
+`http://nginx.org/en/docs/http/converting_rewrite_rules.html`
+
 ## nginx wordpress rewrite
 
 ```
@@ -46,6 +50,4 @@ rewrite ^(.*)$ https://$http_host$request_uri$1 permanent;
 ### nginx wiki configure
 
 `https://www.nginx.com/resources/wiki/start/`
-
-
 
