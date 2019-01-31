@@ -35,5 +35,17 @@ location / {
 }
 ```
 
+## nginx rewrite http to https
+
+```
+#if ($scheme = "http") {
+#    rewrite (.*)$ https://$http_host$request_uri/$1 permanent; }
+rewrite ^(.*)$ https://$http_host$request_uri$1 permanent;
+```
+
+### nginx wiki configure
+
+`https://www.nginx.com/resources/wiki/start/`
+
 
 
