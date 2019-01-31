@@ -15,10 +15,25 @@ location ^~ /app {
         fastcgi_param  SCRIPT_FILENAME $request_filename;
     }
 }
-
 ```
 
 Always include`fastcgi_params`before any`fastcgi_param`statements to avoid them being silently overwritten by the contents of the include file. See[this document](http://nginx.org/en/docs/http/ngx_http_core_module.html#var_request_filename)for details.
 
 
+
+## nginx wordpress rewrite
+
+```
+location / {
+    if (-f $request_filename/index.html){
+        rewrite (.*) $1/index.html break;
+    }
+    if (-f $request_filename/index.php){
+        rewrite (.*) $1/index.php;
+    }
+    if (!-f $request_filename){
+        rewrite (.*) /index.php;
+    }
+}
+```
 
