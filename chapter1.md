@@ -4,7 +4,7 @@
 
 应用列表/信息（包含应用名称、容器类型、应用路径、启动/停止/重启功能、主机ip）
 
-日常数据展示\(涉及数据库查询，需要配置dbhost、dbpasswd、dausername、dbdatabase\)
+日常数据展示\(report\)\(涉及数据库查询，需要配置dbhost、dbpasswd、dausername、dbdatabase\)
 
 環境安裝（nginx/tomcat/java....\)
 
