@@ -51,3 +51,62 @@ rewrite ^(.*)$ https://$http_host$request_uri$1 permanent;
 
 `https://www.nginx.com/resources/wiki/start/`
 
+
+
+## keepalived float ip on aws ec2
+
+通过keepalived 状态变更为master 时，执行notify\_master 对应脚本将floatip 分配给自己
+
+```
+global_defs {
+  script_user ec2-user
+  enable_script_security
+}
+
+vrrp_script check_haproxy {
+  script "/sbin/pidof haproxy"
+  interval 5
+  fall 2
+  rise 2
+  weight -30
+  user ec2-user
+}
+
+vrrp_instance VI_1 {
+  state BACKUP
+  interface eth0
+  smtp_alert
+  virtual_router_id 51
+  priority 100
+  unicast_src_ip 10.240.1.20
+
+  unicast_peer {
+      10.240.1.28
+  }
+
+  advert_int 1
+  authentication {
+      auth_type PASS
+      auth_pass 1111
+  }
+
+  track_script {
+      check_haproxy
+  }
+
+  notify_master  "/etc/keepalived/failover.sh"
+}
+```
+
+```
+#!/bin/bash
+
+PIP=10.240.1.30
+INTERFACE_ID=eni-f65555
+
+/usr/bin/aws ec2 assign-private-ip-addresses --allow-reassignment --network-interface-id \
+$INTERFACE_ID --private-ip-addresses $PIP
+```
+
+
+
