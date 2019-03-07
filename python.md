@@ -1,6 +1,6 @@
 ## pip
 pip install ipython
-(檢查代碼是否符合PEP編碼格式規範）
+(檢查代碼是否符合PEP編碼格式規範，找出語法錯誤，導入未被使用的模塊）
 pip install flake8
 pip freeze
 
@@ -15,3 +15,5 @@ source venv2/bin/activate
 vim 編輯中的腳本啓動調試工具
 !/path/to/virtualenv/python -m pdb %
 
+## pdb
+import pdb; pdb.set_trace()
