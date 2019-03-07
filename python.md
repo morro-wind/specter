@@ -1,4 +1,7 @@
 ## pip
+pip install ipython
+(檢查代碼是否符合PEP編碼格式規範）
+pip install flake8
 pip freeze
 
 ## virtualenv
@@ -11,3 +14,4 @@ source venv2/bin/activate
 ## 執行DEBUG
 vim 編輯中的腳本啓動調試工具
 !/path/to/virtualenv/python -m pdb %
+
