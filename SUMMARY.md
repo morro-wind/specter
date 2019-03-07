@@ -6,4 +6,5 @@
 * [system setting](system-setting.md)
 * [software configure](software-configure.md)
 * [python](python.md)
+* [vim](vim.md)
 
