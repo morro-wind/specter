@@ -1,4 +1,8 @@
 ## 文件和进程数限制（ulimit）
+```
+https://www.cyberciti.biz/faq/linux-increase-the-maximum-number-of-open-files/
+```
+
 ### 文件数限制（ulimit -n）
 
 要能够一次打开大量文件。许多Linux发行版限制允许单个用户打开的文件数`1024`（或者`256`在旧版本的OS X上）。您可以通过`ulimit -n`以运行HBase的用户身份登录时运行命令来检查服务器上的此限制。
