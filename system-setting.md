@@ -1,6 +1,9 @@
 ## 文件和进程数限制（ulimit）
 ```
 https://www.cyberciti.biz/faq/linux-increase-the-maximum-number-of-open-files/
+
+linux-security
+https://www.cyberciti.biz/tips/linux-security.html
 ```
 
 ### 文件数限制（ulimit -n）
