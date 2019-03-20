@@ -63,3 +63,10 @@ session required  pam_limits.so
 
 錯誤號的錯誤信息記錄在/usr/include/asm-generic/errno-base.h 錯誤定義文件中
 
+# UBUNTU
+## /boot disk space less
+
+```
+#dpkg --get-selections | linux
+#dpkg --purge linux-header-$oldversion
+```
