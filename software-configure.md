@@ -107,5 +107,35 @@ INTERFACE_ID=eni-f65555
 $INTERFACE_ID --private-ip-addresses $PIP
 ```
 
-
-
+# filebeter
+```
+multiline.max_lines
+multiline.pattern: '^\['
+multiline.negate: true
+multiline.match: after
+```
+```
+filter {
+    if [type] == "res-shopping-info" {
+        multiline {
+            pattern => "^\["
+            negate => true
+            what => "previous"
+        }
+        grok {
+            match => {
+                "message" => "(?m)\[%{LOGLEVEL:loglevel}\] \[%{TIMESTAMP_ISO8601:time}\] \[%{JAVAFILE:class}\] \| (?<info>([\s\S]*))"
+            }
+           overwrite => ["message"]
+        }
+    }
+```
+```
+    codec => multiline {
+        max_bytes => "10MiB"
+        max_lines => 500
+        charset => "GBK"
+        pattern => "^(?!.*?=== >>>>>>>> ===).*$"
+        what => "previous"
+    } 
+```
