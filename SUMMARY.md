@@ -7,4 +7,5 @@
 * [software configure](software-configure.md)
 * [python](python.md)
 * [vim](vim.md)
+* [CI](ci.md)
 
