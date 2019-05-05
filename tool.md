@@ -38,5 +38,7 @@ $BIN -h $HOST -U $USER -d postgres -c "SELECT pg\_terminate\_backend\(pg\_stat\_
 
 ## GoCD
 
+## ansible-playbook 
 
+host alias, group_vars, roles takes, files, import_playbook, vars\__files_
 
