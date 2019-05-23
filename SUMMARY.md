@@ -9,4 +9,5 @@
 * [vim](vim.md)
 * [CI](ci.md)
 * [StudyPlan](studyplan.md)
+* [CD](cd.md)
 
