@@ -10,4 +10,5 @@
 * [CI](ci.md)
 * [StudyPlan](studyplan.md)
 * [CD](cd.md)
+* [Linux](linux.md)
 
