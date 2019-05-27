@@ -11,4 +11,5 @@
 * [StudyPlan](studyplan.md)
 * [CD](cd.md)
 * [Linux](linux.md)
+* [opsmap](opsmap.md)
 
