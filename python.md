@@ -53,7 +53,7 @@ vim 編輯中的腳本啓動調試工具
 
 ## pdb
 
-import pdb; pdb.set\_trace\(\)
+import pdb; pdb.set_trace()
 
 ## pypi
 在 README.rst文件中写明项目概要、运行方法、设置等信息,以便重复利用程序包
