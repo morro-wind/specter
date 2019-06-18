@@ -40,9 +40,7 @@ $BIN -h $HOST -U $USER -d postgres -c "SELECT pg\_terminate\_backend\(pg\_stat\_
 
 ## ansible-playbook
 
-host alias, group_vars, roles takes, files, import\_playbook, vars\_\_files_
-
-
+host alias, group_vars, roles takes, files, import\_playbook, vars\_\_files\_
 
 # heka 配置 一个go语言实现轻量级logstash 干掉ELK
 
