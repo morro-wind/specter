@@ -38,7 +38,13 @@ $BIN -h $HOST -U $USER -d postgres -c "SELECT pg\_terminate\_backend\(pg\_stat\_
 
 ## GoCD
 
-## ansible-playbook 
+## ansible-playbook
 
-host alias, group_vars, roles takes, files, import_playbook, vars\__files_
+host alias, group_vars, roles takes, files, import\_playbook, vars\_\_files_
+
+
+
+# heka 配置 一个go语言实现轻量级logstash 干掉ELK
+
+
 
