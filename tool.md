@@ -50,4 +50,5 @@ http://www.cis.upenn.edu/~bcpierce/unison/download/releases/stable/unison-manual
 https://github.com/bcpierce00/unison/releases
 ## ocaml:http://caml.inria.fr/
 
-
+# ansible
+ansible-playbook -i /opt/ansible/haproxy_aws/hosts /opt/ansible/haproxy_aws/main.yml --limit 10.254.9.10
