@@ -139,3 +139,12 @@ filter {
         what => "previous"
     } 
 ```
+
+# kibana
+## 修改默认显示列
+defaultColumns
+默认值是 _source 。定义“发现”标签页上默认显示的列
+
+## 修改默認單元格顯示默認高度
+truncate:maxHeight
+这个属性指定了表格中单元格显示时占用的最大高度，设置为0则不限制。
