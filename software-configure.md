@@ -141,6 +141,7 @@ filter {
 ```
 
 # kibana
+https://www.elastic.co/guide/cn/kibana/current/advanced-options.html
 ## 修改默认显示列
 defaultColumns
 默认值是 _source 。定义“发现”标签页上默认显示的列
