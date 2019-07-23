@@ -16,4 +16,5 @@
 * [寫結構化文檔的流程](xie-jie-gou-hua-wen-dang-de-liu-cheng.md)
   * [會議記錄示例](xie-jie-gou-hua-wen-dang-de-liu-cheng/hui-yi-ji-lu-shi-li.md)
 * [測試](ce-shi.md)
+  * [編寫高效測試用例](ce-shi/bian-xie-gao-xiao-ce-shi-yong-li.md)
 
