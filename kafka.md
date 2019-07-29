@@ -9,3 +9,43 @@ kafka 集羣並不是一組獨立運行的broker，而是一個可以靈活伸�
 作爲數據連接層，kafka提供了數據傳遞保證——可復制、持久化，保留多長時間完全可以由你來決定
 
 kafka的流式處理能力讓你只用很少的代碼就能夠動態地處理派生流和數據集
+
+> 用於事件驅動微服務系統的消息總線、流逝應用和大規模數據管道
+
+如何安裝和配置
+如何使用kafka api
+設計原則和可靠性保證
+kafka 架構細節
+
+先就獲取哪一類數據達成一致。只要獲取了數據，問題也就迎刃而解了。
+
+* 發布與訂閱消息系統的概念：
+    數據（消息）的發送者（發布者）不會直接把消息發送給接收者，這是發布與訂閱消息系統的一個特點
+    
+kafka 是基於發布與訂閱的消息系統。它一般被稱爲“分布式提交日志”或者“分布式流平臺”
+
+```sequence
+    前端服務器->度量指標服務器: 應用程序度量指標
+    前端服務器->度量指標服務器: 應用程序度量指標
+    end
+```
+
+```sequence
+    Alice->John: Hello John, how are you?
+    loop every minute
+        John-->Alice: Great!
+    end
+```
+
+```seq
+Alice->Bob: Hello Bob, how are you?
+Note right of Bob: Bob thinks
+Bob-->Alice: I am good thanks!
+```
+
+
+
+流式處理[^1]
+
+
+[^1]:  什 麼是流式處理
