@@ -40,3 +40,13 @@ Kafka 把所有消息都保存在磁盤上，存放這些日志片段的目錄�
 * 當一個消費者開始從主題讀取消息時;
 * 當任意一個客戶端向主題發送元數據請求時。
 
+**initLimit**表示用於在從節點與主節點之間建立初始化連接的時間上限，**syncLimit** 表示允許從節點與主節點處於不同步狀態的時間上限。這兩個值都是tickTime 的倍數，所以initLimit是20*2000ms，也就是40s。
+
+服務器地址遵循server.X=hostname:peerPort:leaderPort 格式，參數說明如下：
+**X** 服務器的ID，必須是一個整數，不過不一定要從0開始，也不要求是連續的;
+**hostname** 服務器的機器名或IP地址;
+**peerPort** 用於節點間通信的TCP端口;
+**leaderPort** 用於首領選舉的TCP端口。
+
+客戶端只需通過clientPort 就能連接到羣組，而羣組節點間的通信則需要同時用到這3個端口（peerPort、leaderPort、clientPort）。
+每個服務器都必須在data DIR目錄中創建一個叫做myid的文件，文件裏要包含服務器ID，這個ID要與配置文件裏配置的ID 保持一致。
