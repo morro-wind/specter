@@ -107,13 +107,15 @@ INTERFACE_ID=eni-f65555
 $INTERFACE_ID --private-ip-addresses $PIP
 ```
 
-# filebeter
+# filebeat
+
 ```
 multiline.max_lines
 multiline.pattern: '^\['
 multiline.negate: true
 multiline.match: after
 ```
+
 ```
 filter {
     if [type] == "res-shopping-info" {
@@ -130,6 +132,7 @@ filter {
         }
     }
 ```
+
 ```
     codec => multiline {
         max_bytes => "10MiB"
@@ -137,15 +140,20 @@ filter {
         charset => "GBK"
         pattern => "^(?!.*?=== >>>>>>>> ===).*$"
         what => "previous"
-    } 
+    }
 ```
 
 # kibana
-https://www.elastic.co/guide/cn/kibana/current/advanced-options.html
+
+[https://www.elastic.co/guide/cn/kibana/current/advanced-options.html](https://www.elastic.co/guide/cn/kibana/current/advanced-options.html)
+
 ## 修改默认显示列
-defaultColumns
-默认值是 _source 。定义“发现”标签页上默认显示的列
+
+defaultColumns  
+默认值是 \_source 。定义“发现”标签页上默认显示的列
 
 ## 修改默認單元格顯示默認高度
-truncate:maxHeight
+
+truncate:maxHeight  
 这个属性指定了表格中单元格显示时占用的最大高度，设置为0则不限制。
+
