@@ -20,4 +20,5 @@
 * [kafka](kafka.md)
   * [安裝](kafka/an-zhuang.md)
 * [Docker](docker.md)
+* [monitor](monitor.md)
 
