@@ -53,11 +53,16 @@ vim 編輯中的腳本啓動調試工具
 
 ## pdb
 
-import pdb; pdb.set_trace()
+import pdb; pdb.set\_trace\(\)
 
 ## pypi
+
 在 README.rst文件中写明项目概要、运行方法、设置等信息,以便重复利用程序包
 
-进一步了解 setup.py 的写法或封装的相关知识,可以参考 Python Packaging User Guide
-https://packaging.python.org/en/latest/
+进一步了解 setup.py 的写法或封装的相关知识,可以参考 Python Packaging User Guide  
+[https://packaging.python.org/en/latest/](https://packaging.python.org/en/latest/)
+
+
+
+注释规范：[https://www.python.org/dev/peps/pep-0257/](https://www.python.org/dev/peps/pep-0257/)
 
