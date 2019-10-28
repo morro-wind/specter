@@ -22,4 +22,5 @@
 * [Docker](docker.md)
   * [configure](docker/configure.md)
 * [monitor](monitor.md)
+* [kubernetes](kubernetes.md)
 
