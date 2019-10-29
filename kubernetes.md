@@ -93,6 +93,10 @@ net.bridge.bridge-nf-call-iptables = 1
 EOF
 sysctl --system
 ```
-* 在此之前确认已加载`br_netfilter` 模块。运行`lsmod | grep br_netfilter`验证。已加载输出`modprobe br_netfilter`.
+* 在此之前确认已加载`br_netfilter` 模块。运行`lsmod | grep br_netfilter`验证。显示加载执行`modprobe br_netfilter`.
+
+现在`kubelet` 每个几秒重启一次，它在等待`kubeadm`告诉它做什么
 
 
+## 在control-plane 节点上，配置kubelet 使用cgroup 驱动
+当使用Docker时，kubeadm 在设置`/var/lib/kubelet/kubeadm-flags.env`文件中自动检测kubelet cgroup驱动程序
