@@ -100,3 +100,41 @@ sysctl --system
 
 ## 在control-plane 节点上，配置kubelet 使用cgroup 驱动
 当使用Docker时，kubeadm 在设置`/var/lib/kubelet/kubeadm-flags.env`文件中自动检测kubelet cgroup驱动程序
+
+## 安装并设置kubectl
+开始前：
+使用的kubectl 版本必须是在集群内的同一个大版本
+
+1. 下载最新版本
+```
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+```
+
+2. 使用kubectl 二进制文件
+```
+chmod +x ./kubectl
+```
+
+3. 移动二进制文件到PATH
+```
+sudo mv ./kubectl /usr/local/bin/kubectl
+```
+
+4. 测试确保安装的为最新版本
+```
+kubectl version
+```
+
+包管理器安装
+```
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+yum install -y kubectl
+```
