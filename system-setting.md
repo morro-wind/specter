@@ -1,4 +1,6 @@
 # Linux
+## 弱口令文件
+/usr/share/dict/words
 
 ## Filesystem
 udev
