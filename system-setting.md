@@ -7,6 +7,8 @@ udev
 tmpfs
 devtmpfs
 
+## Disk UUID
+`blkid /dev/sdb`
 ## 文件和进程数限制（ulimit）
 ```
 https://www.cyberciti.biz/faq/linux-increase-the-maximum-number-of-open-files/
