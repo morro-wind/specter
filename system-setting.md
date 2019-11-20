@@ -9,6 +9,10 @@ devtmpfs
 
 ## Disk UUID
 `blkid /dev/sdb`
+
+yum-config-manager --enable docker-ce-nightly
+yum-config-manager --disable docker-ce-nightly
+yum list docker-ce --showduplicates | sort -r
 ## 文件和进程数限制（ulimit）
 ```
 https://www.cyberciti.biz/faq/linux-increase-the-maximum-number-of-open-files/
