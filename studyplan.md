@@ -15,6 +15,7 @@
 9. flume
 10. heka
 Heka+Flume+Kafka+ELK
+Kubernetes这种声明式配置尤其适合CI/CD流程，况且现在还有如Helm、Draft、Spinnaker、Skaffold等开源工具可以帮助我们发布Kuberentes应用
 
 https://jimmysong.io/posts/ci-cd-in-kubernetes/
 
