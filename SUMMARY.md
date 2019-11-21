@@ -23,4 +23,5 @@
   * [configure](docker/configure.md)
 * [monitor](monitor.md)
 * [kubernetes](kubernetes.md)
+  * [CI/CD](kubernetes/cicd.md)
 
