@@ -16,4 +16,6 @@
 10. heka
 Heka+Flume+Kafka+ELK
 
+https://jimmysong.io/posts/ci-cd-in-kubernetes/
+
 
