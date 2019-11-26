@@ -1,3 +1,9 @@
+```
+kubeadm config print init-defaults > kubeadm-init.yaml
+```
+
+/etc/sysconfig/kubelet 添加 KUBELET\_EXTRA\_ARGS:  KUBELET\_EXTRA\_ARGS=--cloud-provider=aws
+
 ## 配置要求：
 
 * system version:
@@ -14,6 +20,7 @@
 * 2 GB or more of RAM
 
 * 2 CPUs or more
+
 * 所有集群间网络互通（私有或公有网络）
 * 每个节点主机名、MAC address和product\_uuid 要唯一
 * Swap disabled.You MUST disable swap in order for the kubelet to work properly.
@@ -82,50 +89,55 @@ yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
 systemctl enable --now kubelet
 ```
+
 **注意**
 
-* 运行`setenforce 0 `设置SELinux为permissive 模式。这是允许容器访问主机系统文件必须的，例如pod 网络。
+* 运行`setenforce 0`设置SELinux为permissive 模式。这是允许容器访问主机系统文件必须的，例如pod 网络。
 * 在RHEL/CentOS 7上，某些用户绕过iptables而导致流量路由错误。你应确保在`sysctl`配置中`net.bridge.bridge-nf-call-iptables`值为1
-```
-cat <<EOF >  /etc/sysctl.d/k8s.conf
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-EOF
-sysctl --system
-```
+  ```
+  cat <<EOF >  /etc/sysctl.d/k8s.conf
+  net.bridge.bridge-nf-call-ip6tables = 1
+  net.bridge.bridge-nf-call-iptables = 1
+  EOF
+  sysctl --system
+  ```
 * 在此之前确认已加载`br_netfilter` 模块。运行`lsmod | grep br_netfilter`验证。显示加载执行`modprobe br_netfilter`.
 
 现在`kubelet` 每个几秒重启一次，它在等待`kubeadm`告诉它做什么
 
-
 ## 在control-plane 节点上，配置kubelet 使用cgroup 驱动
+
 当使用Docker时，kubeadm 在设置`/var/lib/kubelet/kubeadm-flags.env`文件中自动检测kubelet cgroup驱动程序
 
 ## 安装并设置kubectl
-开始前：
+
+开始前：  
 使用的kubectl 版本必须是在集群内的同一个大版本
 
 1. 下载最新版本
-```
-curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-```
+
+       curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
 
 2. 使用kubectl 二进制文件
-```
-chmod +x ./kubectl
-```
+
+   ```
+   chmod +x ./kubectl
+   ```
 
 3. 移动二进制文件到PATH
-```
-sudo mv ./kubectl /usr/local/bin/kubectl
-```
+
+   ```
+   sudo mv ./kubectl /usr/local/bin/kubectl
+   ```
 
 4. 测试确保安装的为最新版本
-```
-kubectl version
-```
+
+   ```
+   kubectl version
+   ```
 
 包管理器安装
+
 ```
 cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
@@ -138,3 +150,6 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 EOF
 yum install -y kubectl
 ```
+
+
+
