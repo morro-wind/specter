@@ -4,6 +4,8 @@ kubeadm config print init-defaults > kubeadm-init.yaml
 
 /etc/sysconfig/kubelet 添加 KUBELET\_EXTRA\_ARGS:  KUBELET\_EXTRA\_ARGS=--cloud-provider=aws
 
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
+
 ## 配置要求：
 
 * system version:
@@ -22,6 +24,7 @@ kubeadm config print init-defaults > kubeadm-init.yaml
 * 2 CPUs or more
 
 * 所有集群间网络互通（私有或公有网络）
+
 * 每个节点主机名、MAC address和product\_uuid 要唯一
 * Swap disabled.You MUST disable swap in order for the kubelet to work properly.
 
