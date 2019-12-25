@@ -8,15 +8,20 @@
    2. [https://martinfowler.com/microservices/](https://martinfowler.com/microservices/)
 
 4. ansible-playbook
+
 5. GoLang
 6. Service Mesh
 7. Docker
 8. Kubernetes
 9. flume
 10. heka
-Heka+Flume+Kafka+ELK
-Kubernetes这种声明式配置尤其适合CI/CD流程，况且现在还有如Helm、Draft、Spinnaker、Skaffold等开源工具可以帮助我们发布Kuberentes应用
+11. Heka+Flume+Kafka+ELK
+12. Kubernetes这种声明式配置尤其适合CI/CD流程，况且现在还有如Helm、Draft、Spinnaker、Skaffold等开源工具可以帮助我们发布Kuberentes应用
+    [https://jimmysong.io/posts/ci-cd-in-kubernetes/](#)
 
-https://jimmysong.io/posts/ci-cd-in-kubernetes/
+13. Kong 网关
+
+14. Fluentd
+
 
 
