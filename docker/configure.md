@@ -1,7 +1,7 @@
 修改默认docker0 地址及默认仓库地址：
 
 ```
-vim /etc/docker/daemon.json
+vim /etc/docker/daemon.json or /etc/sysconfig/docker
 
 {
 
@@ -11,4 +11,6 @@ vim /etc/docker/daemon.json
 
 }
 ```
+
+
 
