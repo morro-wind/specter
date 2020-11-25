@@ -6,7 +6,7 @@
 - [正则表达式]
     - [RE2](https://github.com/google/re2/wiki/Syntax)
 - [用户环境]
-    - [Environment Modules](https://modules.readthedocs.io/en/stable/index.html)
+    - [Environment Modules](http://modules.sourceforge.net/)[doc](https://modules.readthedocs.io/en/stable/index.html)
 
 
 ## xmllint \(libxml2-utils\)
