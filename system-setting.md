@@ -1,3 +1,344 @@
+- [Secure](#secure)
+    + [Secure sshd](#secure-sshd)
+    + [Firewall](#firewall)
+    + [SELinux](#SElinux)
+- [System Setting](#system-setting)
+    + [Kernel Setting](#kernel-setting)
+- [Software Setting](#software-setting)
+    + [nginx](#nginx)
+    + [tomcat](#tomcat)
+    + [csvn](#csvn)
+    + [file share](#file-share)
+    + [jenkins](#jenkins)
+    + [php7](#php7)
+
+
+# Secure
+
+## 标准化
+
+系统安装原则：
+1. 最小化系统安装，根据需要安装开发库
+2. /var/log目录：挂载独立磁盘，防止log爆盘影响系统
+3. /data目录：挂载独立磁盘，用于存放应用数据目录
+
+系统安全设置原则：
+1. 禁用root 账号远程登陆
+2. 禁用密码登陆，开启密钥登陆，不同业务线不可使用同一密钥
+3. 开启SELinux
+4. 开启firewall，只放行服务端口
+5. 创建普通用户，赋予sudo 权限
+6. 创建应用运行用户，以非root 权限用户运行应用
+7. 限制ssh 登陆IP，只允许跳板机主机登陆（考虑无法登陆跳板机时的应急方案），deny所有IP
+
+## Secure sshd
+
+
+# System Setting
+
+系统设置
+
+## Kernel Setting
+
+TCP FastOpen
+
+RFC743所述，在Linux Kernel 3.7以上版本中，支持服务器和客户端开启TCP FastOpen（TFO）。
+
+
+
+# Software Setting
+
+服务软件配置，包括nginx、tomcat等，在非root 账号下运行
+
+## nginx
+
+[nginx](http://www.nginx.org) 配置开启io、缓存优化等
+
+### configure
+
+```text
+# ./configure --prefix=/data/nginx \
+--error-log-path=/data/logs/nginx/error.log \
+--http-log-path=/data/logs/nginx/access.log \
+--pid-path=/run/nginx.pid \
+--lock-path=/data/nginx/nginx.lock \
+--user=nginx \
+--group=web \
+--with-threads \
+--with-file-aio \
+--with-http_ssl_module \
+--with-http_v2_module \
+--with-http_realip_module \
+--with-http_addition_module \
+--with-http_geoip_module \
+--with-http_image_filter_module \
+--with-http_dav_module \
+--with-http_flv_module \
+--with-http_mp4_module \
+--with-http_gunzip_module \
+--with-http_gzip_static_module \
+--with-http_auth_request_module \
+--with-http_random_index_module \
+--with-http_secure_link_module \
+--with-http_slice_module \
+--with-http_stub_status_module \
+--http-client-body-temp-path=/data/nginx/tmp/client_body_temp \
+--http-proxy-temp-path=/data/nginx/tmp/proxy_temp \
+--http-fastcgi-temp-path=/data/nginx/tmp/fastcgi_temp \
+--http-uwsgi-temp-path=/data/nginx/tmp/uwsgi_temp \
+--http-scgi-temp-path=/data/nginx/tmp/scgi_temp \
+--with-mail \
+--with-mail_ssl_module \
+--with-stream \
+--with-stream_ssl_module \
+--with-stream_realip_module \
+--with-stream_geoip_module \
+--with-stream_ssl_preread_module \
+--with-pcre \
+--with-pcre-jit
+```
+
+### Configure nginx init scripts
+
+参考[官方文档](https://www.nginx.com/resources/wiki/start/topics/examples/initscripts/?highlight=script%20nginx)
+
+`# cat /lib/systemd/system/nginx.service`
+
+```text
+[Unit]
+Description=The NGINX HTTP and reverse proxy server
+After=syslog.target network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+PIDFile=/run/nginx.pid
+ExecStartPre=/usr/sbin/nginx -t
+ExecStart=/usr/sbin/nginx
+ExecReload=/usr/sbin/nginx -s reload
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+```
+
+创建nginx用户、web组、tmp目录，启动nginx 服务
+
+```bash
+# groupadd web
+# useradd -M -s /sbin/nologin -g web nginx
+# mkdir /data/nginx/tmp
+# chown nginx.web /data/nginx/tmp
+# systemctl daemon-reload
+# systemctl start nginx
+```
+
+### cache
+
+使用tmpfs 内存文件系统配置cache位置
+
+使用map 配置选择cache 位置
+
+```
+# Define caches and their locations
+proxy_cache_path /mnt/ssd/cache keys_zone=ssd_cache:10m levels=1:2 inactive=600s
+                 max_size=700m;
+proxy_cache_path /mnt/disk/cache keys_zone=disk_cache:100m levels=1:2 inactive=24h
+                 max_size=80G;
+
+# Requests for .mp4 and .avi files go to disk_cache
+# All other requests go to ssd_cache
+map $request_uri $cache {
+    ~.mp4(?.*)?$  disk_cache;
+    ~.avi(?.*)?$  disk_cache;
+
+    default ssd_cache;
+}
+
+server {
+    # select the cache based on the URI
+    proxy_cache $cache;
+
+    # ...
+}
+```
+
+
+
+## tomcat
+
+[tomcat](http://tomcat.apache.org)
+
+## csvn
+
+[csvn](https://www.collab.net/downloads/subversion)
+
+## file share
+
+[cells](https://github.com/pydio/cells)
+
+cells server 要求启用https，客户端可使用sync 同步
+
+server 配置如下：
+
+```
++---+---------------------+--------+--------------------------+
+| # |       BIND(S)       |  TLS   |       EXTERNAL URL       |
++---+---------------------+--------+--------------------------+
+| 0 | http://0.0.0.0:8080 | No Tls | https://file.liepass.com |
++---+---------------------+--------+--------------------------+
+```
+
+nginx proxy 配置如下：
+
+```
+server {
+  if ($host = file.liepass.com) {
+      return 301 https://$host$request_uri;
+  }
+
+  listen 80;
+  server_name file.liepass.com;
+  return 404;
+}
+
+server {
+  listen 443 ssl;
+  server_name file.liepass.com;
+
+  error_log /data/logs/nginx/error.log;
+  access_log /data/logs/nginx/access.log main;
+  ssl_certificate      cert.pem;
+  ssl_certificate_key  cert.key;
+  ssl_protocols        TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers          HIGH:!aNULL:!MD5;
+
+  client_max_body_size 200M;
+
+  proxy_send_timeout 600;
+  proxy_read_timeout 600;
+  proxy_request_buffering off;
+  keepalive_timeout 600s;
+
+  location / {
+      proxy_buffering off;
+      proxy_pass http://10.114.32.97:8080$request_uri;
+      proxy_set_header X-Real-IP $remote_addr;
+  }
+
+  location /ws {
+      proxy_buffering off;
+      proxy_pass http://10.114.32.97:8080;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+      proxy_read_timeout 86400;
+  }
+}
+
+server {
+  listen 54545 ssl http2;
+  listen [::]:54545 ssl http2;
+  ssl_certificate      cert.pem;
+  ssl_certificate_key  cert.key;
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers         HIGH:!aNULL:!MD5;
+  keepalive_timeout 600s;
+
+  location / {
+    grpc_pass grpc://10.114.32.97:54545;
+  }
+
+  error_log /data/logs/nginx/proxy-grpc-error.log;
+  access_log /data/logs/nginx/proxy-grpc-access.log main;
+}
+```
+
+
+## jenkins
+
+插件列表:
+
+```
+Role-based Authorization Strategy
+Extended Choice Parameter
+```
+
+权限配置
+
+正则表达式已.*结尾，表示匹配以任意字符结尾的项目或文件夹
+
+
+## php7
+
+### Prerequisites:  
+
+```shell
+# yum install systemd-devel libxml2-devel libsqlite3x-devel \
+# bzip2-devel libcurl-devel libicu cyrus-sasl-ldap oniguruma-devel libsodium-devel 
+# cp -frp /usr/lib64/libldap* /usr/lib/
+```
+
+install libzip-1.7,cmake 3.19
+
+```shell
+# wget -c https://github.com/Kitware/CMake/releases/download/v3.19.8/cmake-3.19.8.tar.gz
+# tar zxf cmake-3.19.8.tar.gz
+# cd cmake-3.19.8 && ./configure && make && make install
+# wget -c https://libzip.org/download/libzip-1.7.3.tar.gz
+# tar zxf libzip-1.7.3.tar.gz
+# cd libzip && mkdir build && cd build && cmake .. && make && make install
+#
+```
+
+### build php7
+
+```shell
+# ./configure --prefix=/data/php7 --with-curl --enable-gd --with-zip --enable-fpm --with-fpm-systemd \
+# --enable-mbstring --enable-mysqlnd --with-pdo-mysql --with-mysqli \
+# --with-config-file-path=/data/php7/etc --with-openssl --enable-soap \
+# --with-zlib --enable-intl --with-xmlrpc --enable-exif --with-bz2 \
+# --with-sodium --with-ldap --with-ldap-sasl PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig
+# make && make install
+```
+
+### Configure php
+
+```shell
+# cp php.ini-production /data/php7/etc/
+# cp sapi/fpm/php-fpm.service /lib/systemd/system/
+```
+
+
+
+Manage Roles $\rightarrow$ ->
+
+
+```mermaid
+graph LR
+A[方形] -->B(圆角)
+    B --> C{条件a}
+    C -->|a=1| D[结果1]
+    C -->|a=2| E[结果2]
+    F[横向流程图]
+```
+
+```flow
+st=>start: Start:>https://www.google.com[blank]
+e=>end:>https://www.google.com
+op1=>operation: My Operation|current
+sub1=>subroutine: My Subroutine
+cond=>condition: Yes
+or No?:>https://www.google.com
+io=>inputoutput: catch something...
+
+st->op1->cond
+cond(yes)->io->e
+cond(no)->sub1(right)->op1
+```
+
+
+
 # Linux
 ## 弱口令文件
 /usr/share/dict/words
