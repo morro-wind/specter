@@ -8,9 +8,11 @@
 - [用户环境]
     - [Environment Modules](http://modules.sourceforge.net/)[doc](https://modules.readthedocs.io/en/stable/index.html)
 - [镜像]
-  - [Win10](https://www.microsoft.com/zh-cn/software-download/windows10ISO)
-  - [license](https://www.microsoft.com/licensing/servicecenter/default.aspx)
-
+    - [Win10](https://www.microsoft.com/zh-cn/software-download/windows10ISO)
+    - [license](https://www.microsoft.com/licensing/servicecenter/default.aspx)
+- [配置中心]
+    + [Apollo]
+    + [consul]
 
 ## xmllint \(libxml2-utils\)
 
