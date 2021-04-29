@@ -26,6 +26,3 @@
 15. system V upstart 事件驱动initctl  守护进程
 
 16. OpenZFS https://openzfs.github.io/openzfs-docs
-17. 监控方法论(http://www.brendangregg.com/usemethod.html)
-    ·Brendan Gregg的USE(Utilization、Saturation和Error)方法[1]，侧重于主机级监控。
-    ·Google的四个黄金指标，专注于应用程序级监控。

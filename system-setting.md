@@ -11,6 +11,7 @@
     + [file share](#file-share)
     + [jenkins](#jenkins)
     + [php7](#php7)
+    + [FusionInventory-Agent](#FusionInventory-Agent)
 
 
 # Secure
@@ -164,6 +165,13 @@ server {
 }
 ```
 
+### access log
+
+configure access log format
+
+```
+
+```
 
 
 ## tomcat
@@ -306,9 +314,29 @@ install libzip-1.7,cmake 3.19
 
 ```shell
 # cp php.ini-production /data/php7/etc/
+# cp sapi/fpm/php-fpm.conf /data/php7/etc/
+# cp sapi/fpm/www.conf /data/php7/etc/php-fpm.d/
 # cp sapi/fpm/php-fpm.service /lib/systemd/system/
 ```
 
+### mysql sql
+
+```sql
+> CREATE USER 'pydio'@'localhost' IDENTIFIED BY '%[V5Zi#NEd@yq';
+> CREATE DATABASE cells;
+> GRANT ALL PRIVILEGES ON cells.* to 'pydio'@'localhost';
+> FLUSH PRIVILEGES;
+```
+
+## FusionInventory-Agent
+
+### Dependencies
+
+```shell
+# yum install perl-ExtUtils-MakeMaker perl-File-Which perl-Crypt-SSLeay perl-Test-MockObject perl-Parse-EDID perl-Test-CPAN-Meta perl-HTTP-ProxyAutoConfig perl-Sys-Syslog -y
+# wget http://cpanmin.us/ -O cpanm; chmod +x cpanm
+# cpanm .
+```
 
 
 Manage Roles $\rightarrow$ ->
