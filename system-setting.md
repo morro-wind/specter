@@ -4,6 +4,7 @@
     + [SELinux](#SElinux)
 - [System Setting](#system-setting)
     + [Kernel Setting](#kernel-setting)
+    + [tmpfs create temp file](#tmpfs-create-temp-file)
 - [Software Setting](#software-setting)
     + [nginx](#nginx)
     + [tomcat](#tomcat)
@@ -30,7 +31,7 @@
 4. 开启firewall，只放行服务端口
 5. 创建普通用户，赋予sudo 权限
 6. 创建应用运行用户，以非root 权限用户运行应用
-7. 限制ssh 登陆IP，只允许跳板机主机登陆（考虑无法登陆跳板机时的应急方案），deny所有IP
+7. 访问限制，只允许ssh 登陆IP，只允许跳板机主机登陆（考虑无法登陆跳板机时的应急方案），deny所有IP
 
 ## Secure sshd
 
@@ -45,7 +46,58 @@ TCP FastOpen
 
 RFC743所述，在Linux Kernel 3.7以上版本中，支持服务器和客户端开启TCP FastOpen（TFO）。
 
+## tmpfs create temp file
+### systemd
 
+`systemd` 将`.conf` 文件存放在`/etc/tmpfiles.d`,`/run/tmpfiles.d`,`/usr/lib/tmpfiles.d`目录中的集中机制创建临时目录，替代启动脚本中的`mkdir` 命令。
+
+`# grep -r /var/run /usr/lib/tmpfiles.d/*`
+
+```txt
+/usr/lib/tmpfiles.d/initscripts.conf:d /var/run/netreport 0775 root root -
+/usr/lib/tmpfiles.d/libselinux.conf:d /var/run/setrans 0755 root root
+/usr/lib/tmpfiles.d/pam.conf:d /var/run/console 0755 root root -
+/usr/lib/tmpfiles.d/pam.conf:d /var/run/faillock 0755 root root -
+/usr/lib/tmpfiles.d/pam.conf:d /var/run/sepermit 0755 root root -
+/usr/lib/tmpfiles.d/var.conf:L /var/run - - - - ../run
+```
+
+**字段含义**
+
+整文档请参阅**`man tmpfiles.d`**
+
+- 字段1: d 表示创建一个目录（如果目录不存在）
+- 字段2: 目录的创建路径
+- 字段3: 权限
+- 字段4: 用户
+- 字段5: 组
+
+### 老PRE-SYSTEMD
+
+看起来它们是由各个服务在启动时动态创建的：
+
+```shell
+$ sudo egrep -r 'mkdir.*/var/run' /etc
+
+/etc/init.d/ssh:        mkdir /var/run/sshd
+/etc/init.d/bind9:      mkdir -p /var/run/named
+/etc/init.d/timidity:    mkdir -p /var/run/timidity
+/etc/init.d/bzflag:                mkdir -p /var/run/bzflag
+/etc/init.d/dns-clean:mkdir /var/run/pppconfig >/dev/null 2>&1 || true
+/etc/init/winbind.conf: mkdir -p /var/run/samba/winbindd_privileged
+/etc/init/dbus.conf:    mkdir -p /var/run/dbus
+/etc/init/ssh.conf:    mkdir -p -m0755 /var/run/sshd
+/etc/init/libvirt-bin.conf:     mkdir -p /var/run/libvirt
+/etc/init/cups.conf:    mkdir -p /var/run/cups/certs
+```
+
+相信这是处理mysqld的那个：
+
+```shell
+[ -d /var/run/mysqld ] || install -m 755 -o mysql -g root -d /var/run/mysqld
+/lib/init/apparmor-profile-load usr.sbin.mysqld
+```
+`man install`表示-d表单将“创建指定目录的所有组件”。
 
 # Software Setting
 
