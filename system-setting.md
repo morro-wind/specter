@@ -13,6 +13,8 @@
     + [jenkins](#jenkins)
     + [php7](#php7)
     + [FusionInventory-Agent](#FusionInventory-Agent)
+    + [Svn Server LDAP](#Svn-Server-LDAP)
+    + [Install xfce](#Install-xfce)
 
 
 # Secure
@@ -390,16 +392,181 @@ install libzip-1.7,cmake 3.19
 # cpanm .
 ```
 
+## Svn Server LDAP
+
+### 编译安装svn 1.10.6版本
+
+依赖要求
+subversion-1.10.6.tar.gz
+sqlite-amalgamation-3081101.zip
+
+#### 安装依赖
+
+```shell
+# yum install gcc gcc-c++ apr-devel apr-util-devel zlib-devel lz4-devel utf8proc-devel cyrus-sasl-plain cyrus-sasl cyrus-sasl-lib cyrus-sasl
+```
+
+#### 配置编译安装
+
+```shell
+# mv sqlite-amalgamation-3081101 subversion-1.10.6/sqlite-amalgamation
+# ./configure --with-sasl
+# make && make install
+```
+
+#### 加载动态库
+
+```shell
+echo "/usr/local/lib" >> /etc/ld.so.conf.d/svn.conf
+```
+
+#### 验证版本信息
+
+```shell
+# /usr/local/bin/svnserve --version
+```
+
+#### system service
+
+```shell
+# cat /usr/lib/tmpfiles.d/svn.conf 
+d /run/svn   755 svn svn
+# cat /lib/systemd/system/svn.service 
+[Unit]
+Description=Subversion Server
+After=network.target
+
+[Service]
+User=svn
+Group=svn
+Type=forking
+PIDFile=/run/svn/svn.pid
+ExecStart=/usr/local/bin/svnserve -d --listen-port=3690 --root=/svn/svnrepo/svnRepository --log-file /var/log/svnlog/log.txt --pid-file=/run/svn/svn.pid
+ExecStop=/bin/kill -s QUIT $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+### 集成AD 验证
+
+`svn sever` 使用`sasl` 集成`ldap` 验证.
+
+**`saslauthd` 验证方式**
+
+```shell
+# saslauthd -v
+saslauthd 2.1.26
+authentication mechanisms: getpwent kerberos5 pam rimap shadow ldap httpform
+```
+
+**修改验证方式**
+
+```shell
+# cat /etc/sysconfig/saslauthd 
+SOCKETDIR=/run/saslauthd
+MECH=ldap
+FLAGS=
+```
+
+**sasl配置域信息**
+
+```shell
+#  /etc/saslauthd.conf 
+ldap_servers: ldap://ldap.example.com
+ldap_default_domain: example.com
+ldap_search_base: DC=example,DC=com
+ldap_bind_dn: CN=srv,OU=services,DC=example,DC=com
+ldap_password: ybz8m%example
+ldap_deref: never
+ldap_restart: yes
+ldap_scope: sub
+ldap_use_sasl: no
+ldap_start_tls: no
+ldap_version: 3
+ldap_auth_method: bind
+ldap_mech: DIGEST-MD5
+ldap_filter:sAMAccountName=%u
+ldap_password_attr:userPassword
+ldap_timeout: 10
+ldap_cache_ttl: 30
+ldap_cache_mem: 32786
+```
+
+**重启sasl 服务**
+
+重启服务，AD 连接测试
+
+```shell
+# systemctl restart saslauthd.service
+# testsaslauthd -u test -p 'pwd'
+0: OK"Success."
+```
+
+**svn 集成验证**
+
+```shell
+# cat /etc/sasl2/svn.conf 
+pwcheck_method:saslauthd
+mech_list: plain login
+# systemctl restart saslauthd.service
+```
+
+**svn 版本库认证配置**
+
+```shell
+# cat svnserve.conf 
+[general]
+anon-access = none
+auth-access = write
+authz-db = authz
+[sasl]
+use-sasl = true
+min-encryption = 0
+max-encryption = 0
+```
+
+## Install xfce
+
+更新系统repo，更新系统
+`# yum update -y`
+
+**安装epel**
+`#yum install epel-release -y`
+
+**安装xfce**
+`#yum groupinstall xfce -y`
+
+**安装桌面显示管理器**
+`#yum install lightdm -y`
+
+**切换默认桌面启动**
+`#systemctl set-default graphical.target`
+
+**切换终端启动**
+`#systemctl set-default multi-user.target`
+
+## 用户组添加sudo指定命令
+`#sed -i '/Cmnd_Alias DRIVERS/'a\ "\ \n## EXAMPLE \nCmnd_Alias EXAMPLE=/usr/bin/yum" /etc/sudoers`
+`#sed -i '/^root/'a\ "\ \n## Allow example group run \n%example ALL=(ALL)           EXAMPLE" /etc/sudoers`
+
+[[ ! `grep "^X11UseLocalhost no" /etc/ssh/sshd_config` ]] && sed -i '/^X11Forwarding/'a\ "X11UseLocalhost no" /etc/ssh/sshd_config
+
+
+
+
 
 Manage Roles $\rightarrow$ ->
 
 
 ```mermaid
 graph LR
-A[方形] -->B(圆角)
-    B --> C{条件a}
-    C -->|a=1| D[结果1]
-    C -->|a=2| E[结果2]
+A[方形] ->B(圆角)
+    B -> C{条件a}
+    C ->|a=1| D[结果1]
+    C ->|a=2| E[结果2]
     F[横向流程图]
 ```
 

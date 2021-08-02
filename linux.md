@@ -29,7 +29,7 @@ ps aux | grep "scsi\|glue_filterlib32c"
 
 wget -c -r -np --reject=html -nH https://example
 
-## yum repo group
+## yum repo group(http://yum.baseurl.org/wiki/YumGroups.html)
 
 You can either open a text editor and create the groups xml file manually or you can run the yum-groups-manager command from yum-utils.
 
