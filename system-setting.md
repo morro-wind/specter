@@ -1,3 +1,4 @@
+- [TOC]
 - [Secure](#secure)
     + [Secure sshd](#secure-sshd)
     + [Firewall](#firewall)
@@ -15,7 +16,7 @@
     + [FusionInventory-Agent](#FusionInventory-Agent)
     + [Svn Server LDAP](#Svn-Server-LDAP)
     + [Install xfce](#Install-xfce)
-
+    系统访问控制/etc/security/access.conf
 
 # Secure
 
@@ -672,4 +673,14 @@ session required  pam_limits.so
 ```
 #dpkg --get-selections | linux
 #dpkg --purge linux-header-$oldversion
+```
+
+
+## swap
+```shell
+dd if=/dev/zero of=/mnt/swap bs=1G count=16
+mkswap /mnt/swap
+swapon /mnt/swap
+echo "/mnt/swap swap swap defaults 0 0" >> /etc/fstab
+swapon -s
 ```
