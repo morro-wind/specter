@@ -17,6 +17,8 @@
     + [Svn Server LDAP](#Svn-Server-LDAP)
     + [Install xfce](#Install-xfce)
     系统访问控制/etc/security/access.conf
+- [Proxy](#proxy)
+- [stunnel](#stunnel)
 
 # Secure
 
@@ -224,8 +226,40 @@ server {
 
 configure access log format
 
+**http_access_format**
+```
+    log_format  main  '$remote_addr - $remote_user [$time_local] $http_host "$request" '
+                      '"$proxy_protocol_addr" $status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"'
+                      '$upstream_addr $upstream_status $upstream_response_time"ms" $request_time"ms" '
+                      '"$ssl_protocol" "$ssl_cipher" "$gzip_ratio" ';
 ```
 
+**tcp_access_format**
+```
+    log_format  basic '$binary_remote_addr $connection $remote_addr:$remote_port - [$time_local]  '
+                      '$protocol $status $server_addr:$server_port $session_time '
+                      ' '
+                      '$upstream_addr '
+                      '"$ssl_protocol" "$ssl_cipher"  ';
+```
+
+### logrotate
+
+```
+cat /etc/logrotate.d/nginx 
+/var/log/nginx/*log {
+    create 0664 nginx root
+    daily
+    rotate 10
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+        /bin/kill -USR1 `cat /run/nginx.pid 2>/dev/null` 2>/dev/null || true
+    endscript
+}
 ```
 
 
@@ -322,10 +356,27 @@ server {
 
 插件列表:
 
-```
-Role-based Authorization Strategy
-Extended Choice Parameter
-```
+- Role-based Authorization Strategy
+- Extended Choice Parameter
+- Git Parameter
+- Git
+- Localization: Chinese (Simplified)
+- Mailer
+- Email Extension
+- LDAP
+- PAM Authentication
+- Matrix Authorization Strategy
+- SSH Build Agents
+- Pipeline: Stage View
+- Pipeline 
+- Timestamper
+- Workspace Cleanup
+- Credentials Binding
+- Build Timeout
+- OWASP Markup Formatter
+- Folders
+- Active Directory
+
 
 权限配置
 
@@ -334,7 +385,7 @@ Extended Choice Parameter
 
 ## php7
 
-### Prerequisites:  
+### Prerequisites:
 
 ```shell
 # yum install systemd-devel libxml2-devel libsqlite3x-devel \
@@ -549,6 +600,61 @@ max-encryption = 0
 **切换终端启动**
 `#systemctl set-default multi-user.target`
 
+## stunnel
+stunnel tls proxy [官网](https://www.stunnel.org/)
+
+### 配置邮件客户端代理
+
+cat /etc/stunnel/stunnel.conf 
+
+```
+pid = /var/run/stunnel.pid
+debug = info
+output = /var/log/stunnel4/stunnel.log
+[mailgun-smtp]
+client = yes
+accept = localhost:587
+connect = smtp.mailgun.org:587
+protocol = smtp
+sni =
+```
+
+### socks server/proxy
+
+**create private key**
+`openssl genpkey -algorithm RSA -out private/key.pem -pkeyopt rsa_keygen_bits:4096`
+
+**create ca**
+`openssl req -key private/key.pem -x509 -new -days 3650 -out stunnel.pem`
+
+cat /etc/stunnel/stunnel.conf
+```
+[socks_server]
+protocol = socks
+accept = 0.0.0.0:9080
+cert = /etc/stunnel/certs/stunnel.pem
+key = /etc/stunnel/certs/key.pem
+
+[socks_client]
+client = yes
+accept = 0.0.0.0:1090
+connect = 127.0.0.1:9080
+verifyPeer = yes
+CAfile = /etc/stunnel/certs/stunnel.pem
+```
+
+## dante
+socks proxy [官网](https://www.inet.no/dante/)
+
+## privoxy
+http/https proxy [官网](https://www.privoxy.org/)
+
+## chrome
+[chrome download](https://www.google.com/intl/zh-CN/chrome/?standalone=1)
+
+
+
+
 ## 用户组添加sudo指定命令
 `#sed -i '/Cmnd_Alias DRIVERS/'a\ "\ \n## EXAMPLE \nCmnd_Alias EXAMPLE=/usr/bin/yum" /etc/sudoers`
 `#sed -i '/^root/'a\ "\ \n## Allow example group run \n%example ALL=(ALL)           EXAMPLE" /etc/sudoers`
@@ -609,6 +715,35 @@ https://www.cyberciti.biz/faq/linux-increase-the-maximum-number-of-open-files/
 linux-security
 https://www.cyberciti.biz/tips/linux-security.html
 ```
+### 动态修改limit
+`cat /proc/self/limits || cat /proc/$pid/limits`
+```
+Limit                     Soft Limit           Hard Limit           Units     
+Max cpu time              unlimited            unlimited            seconds   
+Max file size             unlimited            unlimited            bytes     
+Max data size             unlimited            unlimited            bytes     
+Max stack size            8388608              unlimited            bytes     
+Max core file size        unlimited            unlimited            bytes     
+Max resident set          unlimited            unlimited            bytes     
+Max processes             unlimited            unlimited            processes 
+Max open files            1048576              1048576              files     
+Max locked memory         65536                65536                bytes     
+Max address space         unlimited            unlimited            bytes     
+Max file locks            unlimited            unlimited            locks     
+Max pending signals       63455                63455                signals   
+Max msgqueue size         819200               819200               bytes     
+Max nice priority         0                    0                    
+Max realtime priority     0                    0                    
+Max realtime timeout      unlimited            unlimited            us 
+```
+
+#### centos7
+`prlimit --nofile=65536:65536 --pid $pid`
+
+#### centos6
+`echo -n "Max open files=65535:65535" > /proc/$pid/limits`
+
+
 
 ### 文件数限制（ulimit -n）
 
@@ -684,3 +819,103 @@ swapon /mnt/swap
 echo "/mnt/swap swap swap defaults 0 0" >> /etc/fstab
 swapon -s
 ```
+
+
+for i in `find /home -maxdepth 1 -type d`; do  chown -R `basename $i`:lie $i;done
+
+
+
+grep nfs /etc/fstab |grep -v "^#\|^$" | awk '{ print "- { src:", $1,",","path:",$2,"}" }' | sed s/": "/": '"/g |sed s/" ,"/"',"/g |sed s/" }"/"' }"/g
+
+
+
+
+mklabel gpt     
+mkpart primary 0% 100%
+
+
+## tcp fast open
+
+cat /etc/sysctl.d/99-user.conf 
+
+```
+net.ipv4.tcp_fastopen = 3
+```
+
+
+seinfo -b
+
+## SElinux
+http://c.biancheng.net/view/1155.html
+audit2why < /var/log/audit/audit.log
+audit2allow -a /var/log/audit/audit.log
+ sealert -a /var/log/audit/audit.log
+
+
+## enable bbr
+### How to Enable BBR on Debian 11
+BBR stands for Bottleneck Bandwidth and RTT is a congestion control system. You can enable TCP BBR on your Linux desktop to improve overall web surfing experience. By default, Linux uses the Reno and CUBIC congestion control algorithm.
+
+### Requirements:
+BBR requires Linux kernel version 4.9 or above. Since Debian 11 comes with the 4.19.0 kernel, we can enable BBR right away.
+
+Run the following command to check available congestion control algorithms,
+
+`sysctl net.ipv4.tcp_available_congestion_control`
+
+Output:
+```
+# sysctl net.ipv4.tcp_available_congestion_control
+net.ipv4.tcp_available_congestion_control = reno cubic
+```
+
+Run the below command to check the current congestion control algorithm used in your system,
+
+`sysctl net.ipv4.tcp_congestion_control`
+Output:
+
+```
+# sysctl net.ipv4.tcp_congestion_control
+net.ipv4.tcp_congestion_control = cubic
+```
+
+### Enabling TCP BBR in Debian
+Open the following configuration file vi /etc/sysctl.conf to enable enable TCP BBR.
+
+vi /etc/sysctl.conf/12-tcp-bbr.conf
+At the end of the config file, add the following lines.
+```
+net.core.default_qdisc=fq
+net.ipv4.tcp_congestion_control=bbr
+```
+Save the file, and refresh your configuration by using this command,
+
+`sysctl -p`
+Output:
+```
+# sysctl -p /etc/sysctl.conf/12-tcp-bbr.conf
+net.core.default_qdisc = fq
+net.ipv4.tcp_congestion_control = bbr
+```
+Now, Verify if BBR is enabled in your system,
+
+
+`lsmod | grep bbr`
+`sysctl net.ipv4.tcp_congestion_control`
+Output:
+```
+# lsmod | grep bbr
+tcp_bbr                20480  1
+# sysctl net.ipv4.tcp_congestion_control
+net.ipv4.tcp_congestion_control = bbr
+Done!
+```
+
+
+## change lange
+` /etc/default/locale`
+`dpkg-reconfigure locales`
+`reboot`
+`locale -a`
+
+

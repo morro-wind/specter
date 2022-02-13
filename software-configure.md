@@ -157,3 +157,16 @@ defaultColumns
 truncate:maxHeight  
 这个属性指定了表格中单元格显示时占用的最大高度，设置为0则不限制。
 
+
+
+yumdownloader --resolve(可选，意为下依赖包) --destdir=软件存放位置 (可选) +软件包名
+
+
+issue: The certificate of is not trusted
+yum install ca-certificates
+
+## build haproxy
+```
+# make -j $(nproc) TARGET=linux-glibc USE_OPENSSL=1 USE_PCRE2=1 USE_PCRE2_JIT=1 USE_SYSTEMD=1 USE_THREAD=1 USE_STATIC_PCRE2=1 USE_TFO=1 USE_EPOLL=1 USE_LINUX_TPROXY=1
+# make install PREFIX=/opt/haproxy
+```

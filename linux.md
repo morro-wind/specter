@@ -41,4 +41,4 @@ yum-groups-manager -n "My Group" --id=mygroup --save=mygroups.xml --mandatory yu
 
 To include this in a repository, just tell createrepo to use it when making or remaking your repository.
 
-`createrepo -g /path/to/mygroups.xml /srv/my/repo`
+`createrepo -g /srv/my/repo/repodata/mygroups.xml /srv/my/repo`
