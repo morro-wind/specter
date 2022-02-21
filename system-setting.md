@@ -919,3 +919,6 @@ Done!
 `locale -a`
 
 
+## static route
+/etc/sysconfig/static-routes
+
