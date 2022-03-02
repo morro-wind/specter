@@ -1,0 +1,22 @@
+# Default variables 
+# env_repos=hub.example.com 
+# volume_src="/srv/logs/{{ app_name }}"
+# volume_dest="/opt/{{ project_name }}/{{ app_name }}/logs"
+# env_file=prod
+# version=latest
+
+# Default groups variables
+# encryptor_ped: sha256sum
+
+# Use deploy-compose.yml -e variable_hosts=app -e project_name=project -e app_name=java
+
+# roles login aws ecr
+# roles app-compose is deploy app docker compose
+---
+
+- hosts: "{{ variable_hosts }}"
+  gather_facts: yes
+
+  roles:
+  - login
+  - app-compose

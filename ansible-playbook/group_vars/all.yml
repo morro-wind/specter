@@ -1,0 +1,13 @@
+---
+# Environmnet repos
+env_repos: hub.example.com
+
+# Volume mount
+volume_src: "/data/logs/{{ app_name }}"
+volume_dest: "/opt/{{ project_name }}/{{ app_name }}/logs"
+
+# Environment file
+env_file: prod
+
+# Image version
+version: latest

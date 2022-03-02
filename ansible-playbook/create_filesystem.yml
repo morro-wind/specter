@@ -1,0 +1,15 @@
+---
+- hosts: "{{ variable_hosts }}"
+
+  tasks:
+    - name: Create a ext4 filesystem on /dev/nvme1n1
+      filesystem:
+        fstype: ext4
+        dev: /dev/nvme1n1
+    
+    - name: Mount a volume
+      mount:
+        path: /data
+        src: /dev/nvme1n1
+        fstype: ext4
+        state: mounted

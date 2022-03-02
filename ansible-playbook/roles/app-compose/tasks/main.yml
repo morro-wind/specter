@@ -1,0 +1,42 @@
+# file: roles/common/tasks/main.yml
+
+
+- name: deploy app
+  docker_compose:
+    project_name: "{{ project_name }}"
+    pull: yes
+    definition:
+      version: '3'
+      networks: 
+        netdci:
+      services:
+        app:
+          image: "{{ env_repos }}/{{ env_file}}-{{ project_name }}:{{ version }}"
+          environment:
+            profile: "{{ env_file }}"
+            project: "{{ project_name }}"
+            app: "{{ app_name }}"
+            JAVA_OPT: "-Xms2g -Xmx2g -Djasypt.encryptor.password={{ encryptor_pwd }}"
+          volumes:
+            - "{{ volume_src }}:{{ volume_dest }}:Z"
+          ports:
+            - 8080:8080
+          networks:
+            - netdci
+          restart: always
+  tags:
+    - start
+
+- name: "stop app"
+  docker_compose:
+    project_name: "{{ project_name }}"
+    definition:
+      version: '3'
+      networks:
+        netdci:
+      services:
+        app:
+          image: "{{ pro_repos }}/{{ profile}}-{{ project_name }}:{{ version }}"
+    stopped: yes
+  tags:
+    - stop
