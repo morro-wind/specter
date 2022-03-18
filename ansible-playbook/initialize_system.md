@@ -70,6 +70,25 @@ make altinstall
 ## proxy pypi
 `devpi-server --host=0.0.0.0 --port=13141`
 
+## (ansible vault)[https://docs.ansible.com/ansible/latest/user_guide/vault.html#id11]
+创建加密变量
+ansible-vault encrypt_string命令将您键入（或复制或生成）的任何字符串加密并格式化为可包含在 playbook、角色或变量文件中的格式。要创建基本加密变量，请将三个选项传递给ansible-vault encrypt_string命令：
+
+保险库密码的来源（提示、文件或脚本，有或没有保险库 ID）
+
+要加密的字符串
+
+字符串名称（变量的名称）
+
+该模式如下所示：
+
+`ansible-vault encrypt_string <password_source> '<string_to_encrypt>' --name '<string_name_of_variable>'`
+例如，要使用存储在“a_password_file”中的唯一密码加密字符串“foobar”并将变量命名为“the_secret”：
+
+`ansible-vault encrypt_string --vault-password-file a_password_file 'foobar' --name 'the_secret'`
+
+
+
 ---
 - hosts: "{{ variable_hosts }}"
 

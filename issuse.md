@@ -83,5 +83,11 @@ Permission denied, please try again.
 
 /tmp 目录权限错误
 
+## x11 forwarding request failed on channel 0
+ERROR: Unable to open X display
 
+edit sshd_config modify X11MaxDisplays value
+X11MaxDisplays
+       Specifies the maximum number of displays available for sshd(8)'s X11 forwarding.  This prevents sshd from exhausting local ports.  The
+       default is 1000.
 

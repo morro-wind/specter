@@ -270,6 +270,132 @@ cat /etc/logrotate.d/nginx
 ## csvn
 
 [csvn](https://www.collab.net/downloads/subversion)
+1. Set the JAVA_HOME environment variable, and point it to your Java 6 JRE
+home. For example:
+
+export JAVA_HOME=/usr/java/default
+
+Test the variable:
+
+$ $JAVA_HOME/bin/java -version
+java version "1.6.0_20"
+Java(TM) SE Runtime Environment (build 1.6.0_20-b02)
+Java HotSpot(TM) Client VM (build 16.3-b01, mixed mode, sharing)
+
+2. Switch to the folder where you want to install CollabNet Subversion
+Edge. You must have write permissions to this folder.
+
+$ cd /opt
+
+3. Untar the file you downloaded from CollabNet.
+
+$ tar zxf CollabNetSubversionEdge-x.y.z_linux-x86.tar.gz
+
+This will create a folder named "csvn" in the current directory. You can
+rename this folder if desired.
+
+4. Optional. Install the application so that it will start automatically
+when the server restarts. This command generally requires root/sudo to
+execute.
+
+$ cd csvn
+$ sudo -E bin/csvn install
+
+In addition to configuring your system so that the server is started
+with the system, it will also write the current JAVA_HOME and the
+current username in to the file data/conf/csvn.conf. You can edit this
+file if needed as it controls the startup settings for the application.
+By setting the JAVA_HOME and RUN_AS_USER variables in this file, it
+ensures they are set correctly when the application is run.
+
+5. Start the server. Be sure that you are logged in as your own userid and
+not running as root.
+
+$ bin/csvn start
+
+This will take a few minutes and the script will loop until it sees that
+the server is running. If the server does not start, then try starting
+the server with this command:
+
+$ bin/csvn console
+
+This will start the server but output the initial startup messages to
+the console.
+
+You must login to the CollabNet Subversion Edge browser-based management
+console and configure the Apache server before it can be run for the first
+time. The UI of the management console writes the needed Apache
+configuration files based on the information you provide.
+
+The default administrator login is:
+
+Address: http://localhost:3343/csvn
+Username: admin
+Password: admin
+
+Subversion Edge also starts an SSL-protected version using a self-signed SSL
+certificate. You can access the SSL version on this URL:
+
+Address: https://localhost:4434/csvn
+
+You can force users to use SSL from the Server configuration. This will cause
+attempts to access the site via plain HTTP on port 3343 to be redirected to the
+secure port on 4434.
+
+6. Optional. Configure the Apache Subversion server to start automatically when
+the system boots.
+
+$ cd csvn
+$ sudo bin/csvn-httpd install
+
+It is recommend that you login to the Edge console and configure and start the
+Apache server via the web UI before you perform this step.
+
+
+5. Updates
+
+CollabNet Subversion Edge includes a built-in mechanism for discovering and
+installing updates. You must use this facility to install updates. Do not
+download and run a new version of the application installer.
+
+The update mechanism will require you to restart the servers at the end of
+the process, but it will do it for you.
+
+6. Documentation
+
+Documentation for CollabNet Subversion Edge is available here:
+
+http://docs.collab.net/
+
+Context-sensitive help is also linked to this location from within the
+application.
+
+
+7. Known issues
+
+- For the latest FAQ, visit the project home page here: https://ctf.open.collab.net/sf/projects/svnedge
+
+- If you try to access an existing BDB (Berkeley DB) based repository
+through CollabNet Subversion Edge, then you will receive an alert "Failed
+to load module for FS type 'bdb'." This is because CollabNet Subversion
+Edge does not support BDB. CollabNet recommends FSFS over BDB for ease
+of maintenance and supportability.
+
+- You can access the application from localhost, but not other computers
+on your LAN. This usually means that you need to configure Firewall rules
+for you server to open the firewall for port 3343:
+
+edit /etc/sysconfig/iptables
+edit /etc/sysconfig/ip6tables
+
+Add the following line to the above files, it line be will the line before
+the last 2 lines.
+
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 3343 -j ACCEPT
+
+/etc/init.d/iptables restart
+/etc/init.d/ip6tables restart
+
 
 ## file share
 
@@ -648,6 +774,102 @@ socks proxy [官网](https://www.inet.no/dante/)
 
 ## privoxy
 http/https proxy [官网](https://www.privoxy.org/)
+
+
+## **vsftpd**
+### [Manual page](http://vsftpd.beasts.org/vsftpd_conf.html)
+
+### **Configuration vsftpd**
+
+```shell
+# cat /etc/vsftpd.conf
+------
+listen=YES
+listen_ipv6=NO
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+local_umask=022
+dirmessage_enable=YES
+use_localtime=YES
+xferlog_enable=YES
+connect_from_port_20=YES
+xferlog_file=/var/log/vsftpd.log
+chroot_local_user=YES
+secure_chroot_dir=/var/run/vsftpd/empty
+pam_service_name=vsftpd
+rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+ssl_enable=NO
+check_shell=NO
+userlist_enable=YES
+userlist_file=/etc/vsftpd.user_list
+userlist_deny=NO
+hide_ids=YES
+local_root=/ftp/$USER
+user_sub_token=$USER
+dual_log_enable=YES
+vsftpd_log_file=/var/log/vsftpd.log
+guest_enable=YES
+guest_username=ftp
+virtual_use_local_privs=YES
+log_ftp_protocol=YES
+download_enable=NO
+```
+
+### **PAM with virtual users**
+
+use libpam_pwdfile
+
+```shell
+# mkdir /etc/vsftpd
+# openssl passwd -1
+```
+
+`/etc/vsftpd/.passwd` should look like this:
+
+```shell
+username1:hashed_password1
+username2:hashed_password2
+...
+```
+
+### **Configuration PAM**
+
+```shell
+# cat /etc/pam.d/vsftpd
+--------
+auth required pam_pwdfile.so pwdfile /etc/vsftpd/.passwd
+account required pam_permit.so
+```
+
+### **Installation nfs dependencies**
+
+`# libnfs-utils libnfs-utils nfs-common`
+
+## **sftp**
+### [Manual page](https://man.archlinux.org/man/sshd_config.5)
+
+### **Configuration sftp**
+
+
+Add configuration block to file `/etc/ssh/sshd_config`
+```
+Port 48222
+Subsystem   sftp    internal-sftp
+Match LocalPort 48222
+    AllowGroups sftponly
+    ChrootDirectory %h
+    ForceCommand internal-sftp
+    AllowTcpForwarding no
+    X11Forwarding no
+    PasswordAuthentication yes
+```
+
+
+
+
+
 
 ## chrome
 [chrome download](https://www.google.com/intl/zh-CN/chrome/?standalone=1)
