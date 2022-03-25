@@ -60,6 +60,9 @@ container_var_lib_t 是 /var/lib/docker 中内容的默认标签。我们想阻�
 
 chcon -R -t container_file_t logs/
 
+chcon -R -t container_var_lib_t /srv/docker/
+chcon -R -t container_share_t /srv/docker/overlay2/
+
 #!!!! The file '/opt/jumpserver/config/redis/redis.conf' is mislabeled on your system.  
 #!!!! Fix with $ restorecon -R -v /opt/jumpserver/config/redis/redis.conf
 allow container_t container_var_lib_t:file read;

@@ -88,7 +88,7 @@ ansible-vault encrypt_string命令将您键入（或复制或生成）的任何�
 `ansible-vault encrypt_string --vault-password-file a_password_file 'foobar' --name 'the_secret'`
 
 
-
+```
 ---
 - hosts: "{{ variable_hosts }}"
 
@@ -158,3 +158,4 @@ ansible-vault encrypt_string命令将您键入（或复制或生成）的任何�
         name: docker
         enabled: yes
         state: restarted
+```
