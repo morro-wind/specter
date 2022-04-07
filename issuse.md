@@ -48,24 +48,26 @@ BEGIN failed--compilation aborted at Makefile.PL line 8.
 issuse
 https://www.kernel.org/doc/Documentation/security/keys.txt
 https://www.mail-archive.com/sssd-users@lists.fedorahosted.org/msg07597.html
-'''text
+```text
 [[sssd[krb5_child[42521]]]] [unpack_buffer] (0x1000): total buffer size: [156]
 [[sssd[krb5_child[42521]]]] [tgt_req_child] (0x1000): Attempting to get a TGT
 [sssd[krb5_child[42509]]]: Disk quota exceeded
 [sssd[krb5_child[42509]]]: Disk quota exceeded
-'''
+```
+
 
 `cat /proc/key-users`
-'''
+```
 10846:   206 206/206 205/1000 4713/20000
-'''
+```
+
 `cat /proc/keys`
 
 fix
 
-'''text
+```text
 up */proc/sys/kernel/keys/maxkeys *(from default of 200 to 1000) 
-'''
+```
 
 
 sec
@@ -90,4 +92,11 @@ edit sshd_config modify X11MaxDisplays value
 X11MaxDisplays
        Specifies the maximum number of displays available for sshd(8)'s X11 forwarding.  This prevents sshd from exhausting local ports.  The
        default is 1000.
+
+
+
+
+
+
+
 

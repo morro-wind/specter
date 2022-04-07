@@ -1,4 +1,5 @@
-- [TOC]
+[TOC]
+
 - [Secure](#secure)
     + [Secure sshd](#secure-sshd)
     + [Firewall](#firewall)
@@ -1144,3 +1145,7 @@ Done!
 ## static route
 /etc/sysconfig/static-routes
 
+
+## linux 远程图形调用
+`xhost +`
+先切换用户->ssh 远程
