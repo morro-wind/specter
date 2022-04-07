@@ -15,6 +15,19 @@
     + [consul]
 - [MYSQL web 端 SQL 审核平台]
     + [Yearning](https://github.com/cookieY/Yearning)
+- [CMDBulid]
+    + [CMDBuild](https://www.cmdbuild.org/en)
+- [OCSNG]
+    + [OCSNG](https://ocsinventory-ng.org/?lang=en)
+- [GLPI]
+    + [GLPI]() 
+- [Time-Tracking 时间跟踪]
+    + [Kimai](https://www.kimai.org/)
+    + [hamster](https://github.com/projecthamster/hamster)
+- [项目管理]
+    + [Planner](https://wiki.gnome.org/Apps/Planner)
+- [流程图]
+    + [drawio](https://www.diagrams.net/)
 
 ## xmllint \(libxml2-utils\)
 
