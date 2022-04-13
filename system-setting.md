@@ -717,15 +717,23 @@ max-encryption = 0
 
 **安装xfce**
 `#yum groupinstall xfce -y`
+`yum install xfce4-panel xfce4-session xfce-settings xfconf xfdesktop xfwm4 xfce4-appfinder xfce4-icon-theme xfce4-power-manager xfce4-pulseaudio-plugin xfce4-session-engines xfce4-theme-nodoka xfce4-terminal xfwm4-themes Thunar pinentry-gtk`
 
 **安装桌面显示管理器**
 `#yum install lightdm -y`
 
 **切换默认桌面启动**
-`#systemctl set-default graphical.target`
+```
+# systemctl disable gdm
+# systemctl enable lightdm
+# systemctl set-default graphical.target
+```
 
 **切换终端启动**
 `#systemctl set-default multi-user.target`
+
+**卸载gnome**
+`yum remove gnome-classic-session gnome-session-xsession`
 
 ## stunnel
 stunnel tls proxy [官网](https://www.stunnel.org/)
@@ -1149,3 +1157,20 @@ Done!
 ## linux 远程图形调用
 `xhost +`
 先切换用户->ssh 远程
+
+## idmap.conf
+nfs vers 4 不识别uid gid
+
+`vim /etc/idmapd.conf`
+```
+Domain = liepass.com
+```
+
+加载配置生效
+
+`service rpcidmapd restart`
+`nfsidmap -c`
+
+
+
+
