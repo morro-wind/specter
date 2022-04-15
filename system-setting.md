@@ -1172,5 +1172,17 @@ Domain = liepass.com
 `nfsidmap -c`
 
 
+## 自定义桌面应用
+`ssh-forward.desktop `
+
+```txt
+[Desktop Entry]
+Name=forward Terminal
+Comment=Use the command line
+TryExec=gnome-terminal
+Exec=gnome-terminal -e 'ssh -p 9090 lb'
+Icon=utilities-terminal
+Type=Application
+```
 
 
