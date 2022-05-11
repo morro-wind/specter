@@ -1153,6 +1153,8 @@ Done!
 ## static route
 /etc/sysconfig/static-routes
 
+dns
+RES_OPTIONS="timeout:2 attempts:5 rotate"
 
 ## linux 远程图形调用
 `xhost +`
@@ -1184,5 +1186,27 @@ Exec=gnome-terminal -e 'ssh -p 9090 lb'
 Icon=utilities-terminal
 Type=Application
 ```
+
+
+## parted
+
+
+select /dev/sda
+resizepart number 100%
+
+### lvm
+### pvresize
+pvresize /dev/sda2
+lvresize -L +100G /dev/centos/root
+
+
+#### etx
+resize2fs /dev/mapper/centos-root
+
+#### xfs
+xfs_growfs /dev/mapper/centos-root
+
+
+
 
 

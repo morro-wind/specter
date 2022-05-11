@@ -1,0 +1,1 @@
+man nm-settings-ifcfg-rh

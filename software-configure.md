@@ -167,6 +167,7 @@ yum install ca-certificates
 
 ## build haproxy
 ```
+# yum install make openssl-devel pcre2-devel systemd-devel pcre2-static
 # make -j $(nproc) TARGET=linux-glibc USE_OPENSSL=1 USE_PCRE2=1 USE_PCRE2_JIT=1 USE_SYSTEMD=1 USE_THREAD=1 USE_STATIC_PCRE2=1 USE_TFO=1 USE_EPOLL=1 USE_LINUX_TPROXY=1
 # make install PREFIX=/opt/haproxy
 ```
