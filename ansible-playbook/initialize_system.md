@@ -59,7 +59,7 @@ make distclean
 edit Modules/Setup.dist for SSL
 ./configure --enable-optimizations  --enable-unicode=ucs4 --enable-shared --prefix=/usr
 
-
+libffi-devel
 ## install python3.7 for centos7
 `./configure --prefix=/usr --enable-optimizations --with-system-ffi --with-ssl-default-suites=openssl --with-openssl=/usr/include/openssl`
 make altinstall

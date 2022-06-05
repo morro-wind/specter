@@ -11,6 +11,7 @@
         netdci:
       services:
         app:
+          container_name: "{{ project_name }}"
           image: "{{ env_repos }}/{{ env_file}}-{{ project_name }}:{{ version }}"
           environment:
             profile: "{{ env_file }}"
@@ -21,6 +22,7 @@
             - "{{ volume_src }}:{{ volume_dest }}:Z"
           ports:
             - 8080:8080
+          network_mode: bridge
           networks:
             - netdci
           restart: always
@@ -36,6 +38,7 @@
         netdci:
       services:
         app:
+          container_name: "{{ project_name }}"
           image: "{{ pro_repos }}/{{ profile}}-{{ project_name }}:{{ version }}"
     stopped: yes
   tags:

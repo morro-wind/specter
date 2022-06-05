@@ -726,6 +726,7 @@ max-encryption = 0
 ```
 # systemctl disable gdm
 # systemctl enable lightdm
+# systemctl isolate graphical.target
 # systemctl set-default graphical.target
 ```
 
