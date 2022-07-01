@@ -28,6 +28,10 @@
     + [Planner](https://wiki.gnome.org/Apps/Planner)
 - [流程图]
     + [drawio](https://www.diagrams.net/)
+- [文件系统]
+    + [lustre文件系统](http://wiki.lustrefs.cn/index.php?title=Lustre%E4%BB%8B%E7%BB%8D)
+- [基础架构]
+    + [terraform](https://www.terraform.io/docs)
 
 ## xmllint \(libxml2-utils\)
 
