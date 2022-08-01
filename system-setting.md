@@ -1208,6 +1208,21 @@ resize2fs /dev/mapper/centos-root
 xfs_growfs /dev/mapper/centos-root
 
 
-
+### ubuntu desktop environment tools
+- gimp
+- vim
+- dig
+- keepassxc
+- drawio
+- wireshark
+- chrome
+- chromium
+- thunderbird mail
+- fcitx
+- filezilla
+- planner
+- FreeMind
+- goforlt
+- freemind
 
 
