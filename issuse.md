@@ -95,6 +95,13 @@ X11MaxDisplays
 
 
 
+##  Failed to initialize credentials using keytab [MEMORY:/etc/krb5.keytab]: Preauthentication failed. Unable to create GSSAPI-encrypted LDAP connection.
+https://docs.microsoft.com/en-us/answers/questions/570467/linux-server-join-to-ad-using-sssd-the-linux-serve.html
+https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/thread/REMZAIDC2DXFCFT5ZAOO4ZZAWQXGPMAA/
+
+`# sssctl domain-status testlab.local`
+`ipa-getkeytab`
+
 
 
 
