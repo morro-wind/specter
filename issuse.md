@@ -103,7 +103,7 @@ https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.o
 `ipa-getkeytab`
 
 
-
+https://sssd.io/release-notes/sssd-2.4.0.html
 
 
 
