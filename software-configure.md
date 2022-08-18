@@ -171,3 +171,14 @@ yum install ca-certificates
 # make -j $(nproc) TARGET=linux-glibc USE_OPENSSL=1 USE_PCRE2=1 USE_PCRE2_JIT=1 USE_SYSTEMD=1 USE_THREAD=1 USE_STATIC_PCRE2=1 USE_TFO=1 USE_EPOLL=1 USE_LINUX_TPROXY=1
 # make install PREFIX=/opt/haproxy
 ```
+
+
+## nginx log format
+
+```
+    log_format  main  '$remote_addr - $remote_user [$time_local] $http_host "$request" '
+                      '"$proxy_protocol_addr" $status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"'
+                      '$upstream_addr $upstream_status $upstream_response_time"m" $request_time"m" '
+                      '"$ssl_protocol" "$ssl_cipher" "$gzip_ratio" ';
+```
