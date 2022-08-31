@@ -894,7 +894,42 @@ Match LocalPort 48222
 [[ ! `grep "^X11UseLocalhost no" /etc/ssh/sshd_config` ]] && sed -i '/^X11Forwarding/'a\ "X11UseLocalhost no" /etc/ssh/sshd_config
 
 
+## keepalived
 
+`yum install make autoconf automake openssl-devel libnl3-devel iptables-devel ipset-devel file-devel net-snmp-devel glib2-devel pcre2-devel libnftnl-devel libmnl-devel systemd-devel kmod-devel python-sphinx epel-release python-sphinx_rtd_theme`
+
+`./configure --prefix=/opt/keepalived --sysconfdir=/etc --with-init=systemd`
+
+```
+Use IPVS Framework       : Yes
+IPVS use libnl           : Yes
+IPVS syncd attributes    : No
+IPVS 64 bit stats        : No
+HTTP_GET regex support   : No
+fwmark socket support    : Yes
+Use VRRP Framework       : Yes
+Use VRRP VMAC            : Yes
+Use VRRP authentication  : Yes
+With track_process       : Yes
+With linkbeat            : Yes
+Use BFD Framework        : No
+SNMP vrrp support        : No
+SNMP checker support     : No
+SNMP RFCv2 support       : No
+SNMP RFCv3 support       : No
+DBUS support             : No
+Use JSON output          : No
+libnl version            : 3
+Use IPv4 devconf         : No
+Use iptables             : Yes
+Use libipset             : Yes
+Use nftables             : Yes
+init type                : systemd
+systemd notify           : Yes
+Strict config checks     : No
+Build documentation      : Yes
+Default runtime options  : -D
+```
 
 
 Manage Roles $\rightarrow$ ->
@@ -1225,6 +1260,7 @@ xfs_growfs /dev/mapper/centos-root
 - goforlt
 - freemind
 - nmap
+- shotwell
 
 
 
