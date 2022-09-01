@@ -898,7 +898,7 @@ Match LocalPort 48222
 
 `yum install make autoconf automake openssl-devel libnl3-devel iptables-devel ipset-devel file-devel net-snmp-devel glib2-devel pcre2-devel libnftnl-devel libmnl-devel systemd-devel kmod-devel python-sphinx epel-release python-sphinx_rtd_theme`
 
-`./configure --prefix=/opt/keepalived --sysconfdir=/etc --with-init=systemd`
+`./configure --prefix=/opt/keepalived --sysconfdir=/etc --enable-regex   --enable-bfd --enable-snmp  --enable-json --enable-strict-config-checks --with-init=systemd`
 
 ```
 Use IPVS Framework       : Yes
