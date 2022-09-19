@@ -1269,3 +1269,10 @@ xfs_growfs /dev/mapper/centos-root
 cd /data/repo/centos/7/os/x86_64/repodata/
 yum-groups-manager -n "IC Tools" --id=ICTools --save=icgroups.xml --mandatory chrony xz-compat-libs
 ```
+
+
+### mysql_config_editor
+```
+# mysql_config_editor set -u user -p --login-path=client
+# mysql_config_editor print --all
+```
