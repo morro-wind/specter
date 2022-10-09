@@ -10,6 +10,7 @@
 - [镜像]
     - [Win10](https://www.microsoft.com/zh-cn/software-download/windows10ISO)
     - [license](https://www.microsoft.com/licensing/servicecenter/default.aspx)
+    - [Lenove Recovery](https://support.lenovo.com/hk/en/solutions/ht103653) [Lenove Recovery](https://pcsupport.lenovo.com/hk/zc/lenovorecovery)
 - [配置中心]
     + [Apollo]
     + [consul]
@@ -32,6 +33,16 @@
     + [lustre文件系统](http://wiki.lustrefs.cn/index.php?title=Lustre%E4%BB%8B%E7%BB%8D)
 - [基础架构]
     + [terraform](https://www.terraform.io/docs)
+- [私有仓库]
+    + [nexus](https://help.sonatype.com/repomanager3/product-information/download)
+    + [rust crates-io-proxy](https://crates.io/crates/crates-io-proxy)
+- [MySQL]
+    + [Mysql authentication credentials](https://dev.mysql.com/doc/refman/8.0/en/mysql-config-editor.html)
+    + [resetting-permission](https://dev.mysql.com/doc/refman/5.6/en/resetting-permissions.html)
+- [Kubernetes]
+    + [Ranch](https://docs.ranchermanager.rancher.io/)
+    + [Wayne](https://github.com/Qihoo360/wayne])
+
 
 ## xmllint \(libxml2-utils\)
 
