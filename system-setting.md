@@ -1276,3 +1276,23 @@ yum-groups-manager -n "IC Tools" --id=ICTools --save=icgroups.xml --mandatory ch
 # mysql_config_editor set -u user -p --login-path=client
 # mysql_config_editor print --all
 ```
+
+### gitlab
+
+```
+external_url 'http://gitlab.example.com'
+gitlab_workhorse['listen_umask'] = 000
+nginx['listen_port'] = 80
+nginx['proxy_protocol'] = true
+nginx['proxy_set_headers'] = {
+  "X-Forwarded-Proto" => "http",
+  "CUSTOM_HEADER" => "VALUE"
+}
+nginx['real_ip_trusted_addresses'] = [ '127.0.0.0/8']
+nginx['real_ip_header'] = 'X-Forwarded-For'
+nginx['real_ip_recursive'] = 'on'
+```
+
+haproxy
+
+`server  git 127.0.0.1:80 send-proxy`
