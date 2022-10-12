@@ -20,6 +20,7 @@
     系统访问控制/etc/security/access.conf
 - [Proxy](#proxy)
 - [stunnel](#stunnel)
+- [git i18n](#git-i18n)
 
 # Secure
 
@@ -1296,3 +1297,21 @@ nginx['real_ip_recursive'] = 'on'
 haproxy
 
 `server  git 127.0.0.1:80 send-proxy`
+
+
+# git i18n
+Set support chinese language
+
+git status 乱码
+解决方法：
+`git config --global core.quotepath false`
+git commit 乱码
+解决方法：
+
+`git config --global i18n.commitencoding utf-8`
+git status 乱码
+解决方法：
+
+`git config --global i18n.logoutputencoding utf-8`
+注意：如果是Linux系统，需要设置环境变量 export LESSCHARSET=utf-8
+
