@@ -21,6 +21,7 @@
 - [Proxy](#proxy)
 - [stunnel](#stunnel)
 - [git i18n](#git-i18n)
+- [Log Format](#log-format)
 
 # Secure
 
@@ -1315,3 +1316,15 @@ git status 乱码
 `git config --global i18n.logoutputencoding utf-8`
 注意：如果是Linux系统，需要设置环境变量 export LESSCHARSET=utf-8
 
+application/x-keepass2=org.keepassxc.KeePassXC.desktop
+
+### log format
+#### gitlab
+
+#### jira
+
+#### confluence
+
+#### nginx
+
+#### haproxy
