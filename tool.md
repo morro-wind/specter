@@ -42,6 +42,22 @@
 - [Kubernetes]
     + [Ranch](https://docs.ranchermanager.rancher.io/)
     + [Wayne](https://github.com/Qihoo360/wayne])
+- [ChatOps]
+    + [HipChat]
+    + [Slack]
+    + [MatterMost]
+    + [Zulip]
+- [配置管理系统]
+    + [Ansible]
+    + [Salt]
+    + [Puppet]
+    + [Chef]
+- [持续集成]
+    + [Jenkins]
+    + [Bamboo]
+- [基础设施自动化]
+    + [Packer]
+    + [Terraform]
 
 
 ## xmllint \(libxml2-utils\)
