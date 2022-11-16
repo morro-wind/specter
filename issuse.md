@@ -110,3 +110,31 @@ https://sssd.io/release-notes/sssd-2.4.0.html
 ### ERR_SSL_PROTOCOL_ERROR
 域名访问ERR_SSL_PROTOCOL_ERROR，域名未备案，tls 加密算法无法通过拦截
 `ssl_ciphers         ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA384:CDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:AES128-GCM-SHA256:ES128-SHA:AES256-SHA256:AES256-SHA;`
+
+
+## git pull 冲突 error: Your local changes to the following files would be overwritten by merge
+
+git stash 
+
+git stash list
+
+git pull
+
+git pop
+
+git diff
+
+git commit 
+
+git push
+
+
+
+
+
+
+
+
+
+
+
