@@ -1263,6 +1263,7 @@ xfs_growfs /dev/mapper/centos-root
 - freemind
 - nmap
 - shotwell
+- Okular
 
 
 ### yum-groups-manager
