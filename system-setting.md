@@ -1189,7 +1189,23 @@ Done!
 
 
 ## static route
+[centos-static-route](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/sec-configuring_static_routes_in_ifcfg_files)
+
 /etc/sysconfig/static-routes
+
+/etc/sysconfig/network-scripts/route-ifname
+
+```
+default via 192.168.1.1 dev interface
+10.10.10.0/24 via 192.168.1.1 [dev interface]
+```
+
+```
+# example
+default via 192.168.0.1 dev eth0
+10.10.10.0/24 via 192.168.0.10 dev eth0
+172.16.1.10/32 via 192.168.0.10 dev eth0
+```
 
 dns
 RES_OPTIONS="timeout:2 attempts:5 rotate"
