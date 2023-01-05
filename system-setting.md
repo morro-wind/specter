@@ -22,6 +22,7 @@
 - [stunnel](#stunnel)
 - [git i18n](#git-i18n)
 - [Log Format](#log-format)
+- [磁盘性能优化](https://cloud.google.com/filestore/docs/performance?hl=zh-cn)
 
 # Secure
 
