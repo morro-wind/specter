@@ -1412,6 +1412,8 @@ https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/wi
 
 ### docker conf
 
+[nexus3 docker](https://www.jenkins-zh.cn/wechat/articles/2020/05/2020-05-13-using-nexus-oss-as-a-proxy-cache-for-docker-images/)
+
 `cat /etc/docker/daemon.json `
 
 ```
