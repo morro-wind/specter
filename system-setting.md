@@ -1346,3 +1346,66 @@ application/x-keepass2=org.keepassxc.KeePassXC.desktop
 #### nginx
 
 #### haproxy
+
+
+### sssd configuration
+#### sssd.conf
+
+```
+[sssd]
+domains = liepass.com
+config_file_version = 2
+services = nss, pam
+debug_level = 0x1000
+
+[nss]
+local_negative_timeout = 2100
+memcache_timeout = 3600
+
+[pam]
+pam_verbosity = 2
+pam_id_timeout = 3000
+pam_pwd_expiration_warning = 30
+
+[domain/liepass.com]
+ad_enabled_domains = dc1.liepass.com, dc2.liepass.com
+entry_cache_timeout = 2400
+refresh_expired_interval = 1800
+debug_level = 0x1000
+id_provider = ad
+auth_provider = ad
+chpass_provider = ad
+access_provider = ad
+ldap_schema = ad
+#ldap_use_tokengroups = false
+
+ad_server = dc1.liepass.com
+ad_backup_server = dc2.liepass.com
+ad_domain = liepass.com
+krb5_realm = liepass.com
+cache_credentials = true
+
+# using explicit POSIX attributes in the Windows entries
+ldap_id_mapping = false
+
+default_shell = /bin/bash
+fallback_homedir = /home/%u
+
+use_fully_qualified_names = false
+enumerate = false
+min_id = 1
+```
+
+#### sssd AD maping
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/windows_integration_guide/sssd-integration-intro
+
+#### windows sssd
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/windows_integration_guide/id-views
+
+
+### haproxy proxy
+
+
+
