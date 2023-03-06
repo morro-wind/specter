@@ -1407,6 +1407,10 @@ https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/wi
 
 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/windows_integration_guide/id-views
 
+### debian interfaces
+
+https://wiki.debian.org/NetworkConfiguration
+https://www.debian.org/doc/manuals/debian-reference/ch05.zh-tw.html
 
 ### haproxy proxy
 
