@@ -24,6 +24,7 @@
 - [Log Format](#log-format)
 - [磁盘性能优化](https://cloud.google.com/filestore/docs/performance?hl=zh-cn)
 - [docker](#docker-conf)
+- [硬件传感器lm_sensors](https://wiki.archlinux.org/title/Lm_sensors)
 
 # Secure
 
