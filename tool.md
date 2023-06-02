@@ -36,6 +36,7 @@
 - [私有仓库]
     + [nexus](https://help.sonatype.com/repomanager3/product-information/download)
     + [rust crates-io-proxy](https://crates.io/crates/crates-io-proxy)
+    + [pypi proxy devpi-server]
 - [MySQL]
     + [Mysql authentication credentials](https://dev.mysql.com/doc/refman/8.0/en/mysql-config-editor.html)
     + [resetting-permission](https://dev.mysql.com/doc/refman/5.6/en/resetting-permissions.html)
@@ -60,8 +61,10 @@
     + [Terraform]
 - [文件同步]
     + [csync2](https://github.com/LINBIT/csync2/blob/master/doc/csync2.adoc)
-    + 
-
+    + [lsyncd]
+- [cloud]
+    + [cloud-init](https://cloudinit.readthedocs.io/en/19.2/topics/examples.html)
+    + [cloud-utils-growpart]
 
 ## xmllint \(libxml2-utils\)
 
