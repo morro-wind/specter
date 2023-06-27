@@ -56,7 +56,7 @@
 - [持续集成]
     + [Jenkins]
     + [Bamboo]
-- [基础设施自动化]
+- [IaC基础设施即代码]
     + [Packer]
     + [Terraform]
 - [文件同步]
@@ -65,6 +65,15 @@
 - [cloud]
     + [cloud-init](https://cloudinit.readthedocs.io/en/19.2/topics/examples.html)
     + [cloud-utils-growpart]
+- [DevOps]
+    + [devops-toolchain](https://www.opsera.io/learn/beginners-devops-toolchain)
+    + [security-devops](https://www.opsera.io/learn/integrate-security-to-devops-toolchain)
+    + [testing-devops](https://www.opsera.io/learn/continuous-testing-devops)
+    + [ci-cd-pipeline](https://www.opsera.io/ci-cd-pipeline)
+    + [devops-tools](https://www.opsera.io/blog/best-devops-tools)
+    + [IaC](https://www.opsera.io/learn/10-infrastructure-as-code-tools-for-automating-deployments-in-2022)
+    
+
 
 ## xmllint \(libxml2-utils\)
 
