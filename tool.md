@@ -72,6 +72,10 @@
     + [ci-cd-pipeline](https://www.opsera.io/ci-cd-pipeline)
     + [devops-tools](https://www.opsera.io/blog/best-devops-tools)
     + [IaC](https://www.opsera.io/learn/10-infrastructure-as-code-tools-for-automating-deployments-in-2022)
+- [SysOS]
+    + [pentoo](https://pentoo.org/downloads)
+    + [parrotsec](https://www.parrotsec.org/download/)
+    + [kali.org](https://www.kali.org/get-kali/#kali-platforms)
     
 
 
