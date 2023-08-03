@@ -1,16 +1,28 @@
 
 [TOC]
+
+## Toollist
+
+- lspci
+- lsmod
+- lshw
+- nvidia-smi
+
 ## 获取网卡硬件名称
 
 获取网卡硬件设备名称，为下载网卡驱动做准备
 
 ```shell
-# lspci | grep -i eth
+# lspci -k| grep -A3 -i eth
+# lspci -vnn| grep -A3 -i eth
  ``` 
 
 ```shell 
 19:00.1 Ethernet controller: Broadcom Inc. and subsidiaries NetXtreme BCM5720 2-port Gigabit Ethernet PCIe
-86:00.0 Ethernet controller: Intel Corporation Ethernet 10G 2P X520 Adapter (rev 01)
+01:00.0 Ethernet controller: Intel Corporation 82599ES 10-Gigabit SFI/SFP+ Network Connection (rev 01)
+     Subsystem: Intel Corporation Ethernet Server Adapter X520-2
+     Kernel driver in use: ixgbe
+     Kernel modules: ixgbe  
 ```
 
 ## 查看网卡驱动信息
