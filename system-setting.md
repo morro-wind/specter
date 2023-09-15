@@ -26,6 +26,8 @@
 - [排查Filestore响应错误](https://cloud.google.com/filestore/docs/unresponsive?hl=zh-cn)
 - [docker](#docker-conf)
 - [硬件传感器lm_sensors](https://wiki.archlinux.org/title/Lm_sensors)
+- [EBOOK](https://alist.guoch.xyz:26443/)
+- https://guoch.xyz/
 
 # Secure
 
