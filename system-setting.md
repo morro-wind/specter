@@ -26,7 +26,9 @@
 - [排查Filestore响应错误](https://cloud.google.com/filestore/docs/unresponsive?hl=zh-cn)
 - [docker](#docker-conf)
 - [硬件传感器lm_sensors](https://wiki.archlinux.org/title/Lm_sensors)
-- [EBOOK](https://alist.guoch.xyz:26443/)
+- [EBOOK]
+    + [ebook](https://alist.guoch.xyz:26443/)
+    + [ebook](honeypdf.com)
 - https://guoch.xyz/
 
 # Secure
@@ -1432,3 +1434,32 @@ https://www.debian.org/doc/manuals/debian-reference/ch05.zh-tw.html
   "registry-mirrors": ["http://docker.liepass.com/"]
 }
 ```
+
+### Recover Admin User Rights for confluence,jira
+https://confluence.atlassian.com/doc/restore-passwords-to-recover-admin-user-rights-158390.html
+
+丢失admin 密码时，可以启动恢复模式恢复管理权限
+
+#### 启动恢复模式
+
+原理是使用临时管理员帐户创建虚拟用户目录
+
+1. 停止服务
+2. 添加系统属性setenv.sh，替换<your-password> 为唯一的临时密码。 
+
+confluence
+```
+CATALINA_OPTS="-Datlassian.recovery.password=<your-password>"
+```
+jira
+```
+JVM_SUPPORT_RECOMMENDED_ARGS="-Datlassian.recovery.password=<your-password>"
+```
+
+3. 启动服务
+4. 使用用户名recovery_admin 和您在系统属性中指定的临时密码登录
+5. 重置现有管理员帐户的密码，或创建一个新帐户并将其添加到适当的管理员组
+6. 确认您可以使用新帐户成功登录
+7. 停止服务
+8. 删除您之前添加的系统属性
+9. 使用常用方法（手动或启动服务）重新启动
