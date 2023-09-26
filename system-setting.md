@@ -874,6 +874,10 @@ account required pam_permit.so
 
 ### **Configuration sftp**
 
+chroot directory %h permissions root user and root group ownership,chmod 755
+%h/uploads permissions user ownership,chmod 755
+
+#### Configure OpenSSH
 
 Add configuration block to file `/etc/ssh/sshd_config`
 ```
@@ -882,14 +886,35 @@ Subsystem   sftp    internal-sftp
 Match LocalPort 48222
     AllowGroups sftponly
     ChrootDirectory %h
+    AuthorizedKeysFile /etc/ssh/authorized_keys/%u .ssh/authorized_keys
     ForceCommand internal-sftp
     AllowTcpForwarding no
     X11Forwarding no
     PasswordAuthentication yes
 ```
 
+```
+Subsystem   sftp    /usr/lib/openssh/sftp-server
+Match Group sftponly, LocalPort 22
+  ChrootDirectory %h
+  AuthorizedKeysFile /etc/ssh/authorized_keys/%u .ssh/authorized_keys
+  X11Forwarding no
+  AllowTcpForwarding no
+  PasswordAuthentication no
+  MaxSessions 30
+  #ForceCommand internal-sftp -d /uploads -u 0666 -p realpath,open,write,close,lstat,readdir,read,fstat,setstat,fsetstat,opendir
+  ForceCommand internal-sftp -d /uploads -u 0077 -p realpath,open,write,close,lstat,opendir,readdir,mkdir,fstat,setstat,fsetstat
+```
 
+#### Fixing path for authorized_keys
 
+```
+# mkdir /etc/ssh/authorized_keys
+# chown root:root /etc/ssh/authorized_keys
+# chmod 755 /etc/ssh/authorized_keys
+# echo 'ssh-rsa <key> <username@host>' >> /etc/ssh/authorized_keys/username
+# chmod 644 /etc/ssh/authorized_keys/username
+```
 
 
 
