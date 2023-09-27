@@ -76,7 +76,7 @@
     + [pentoo](https://pentoo.org/downloads)
     + [parrotsec](https://www.parrotsec.org/download/)
     + [kali.org](https://www.kali.org/get-kali/#kali-platforms)
-    
+- [ldapserch](https://3gstudent.github.io/%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80-%E6%B4%BB%E5%8A%A8%E7%9B%AE%E5%BD%95%E4%BF%A1%E6%81%AF%E7%9A%84%E8%8E%B7%E5%8F%96)
 
 
 ## xmllint \(libxml2-utils\)
@@ -154,3 +154,31 @@ Kubernetes 平台和 CI/CD 工作流程都旨在提高软件质量，以及自�
 
 Jenkins X 固执己见。它定义了软件开发生命周期的许多方面，并为我们做出决策。它告诉我们要做什么以及如何做。它就像您假期中的导游，告诉您去哪里、看什么、何时拍照以及何时休息。同时，它非常灵活，允许高级用户对其进行调整以满足自己的需求。
 
+
+## ldapsearch
+
+这个测试环境中，我们获得了域内普通用户testa的口令为DomainUser123!
+
+连接命令如下：
+```
+ldapsearch -x -H ldap://192.168.1.1:389 -D "CN=testa,CN=Users,DC=test,DC=com" -w DomainUser123! -b "DC=test,DC=com"
+```
+参数说明：
+
+-x 进行简单认证
+-H 服务器地址
+-D 用来绑定服务器的DN
+-w 绑定DN的密码
+-b 指定要查询的根节点
+这条命令会显示所能查询到的所有信息，如下图
+
+接下来加入搜索条件，对结果进行分类
+
+(1)查询所有域用户
+加入搜索条件："(&(objectClass=user)(objectCategory=person))"
+
+完整命令如下：
+
+```
+ldapsearch -x -H ldap://192.168.1.1:389 -D "CN=testa,CN=Users,DC=test,DC=com" -w DomainUser123! -b "DC=test,DC=com" -b "DC=test,DC=com" "(&(objectClass=user)(objectCategory=person))"
+```
