@@ -27,3 +27,9 @@ https://www.lintcode.com/
 20. 禅道
 21. redmine
 22. trello.com
+23. [rfc](https://www.rfc-editor.org/)
+24. rfc https://datatracker.ietf.org/
+
+## Todo
+1. C Primer Plus
+2. Linux-UNIX系统编程手册

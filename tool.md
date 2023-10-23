@@ -76,8 +76,12 @@
     + [pentoo](https://pentoo.org/downloads)
     + [parrotsec](https://www.parrotsec.org/download/)
     + [kali.org](https://www.kali.org/get-kali/#kali-platforms)
+
     
 - [sketch]
+
+- [ldapserch](https://3gstudent.github.io/%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80-%E6%B4%BB%E5%8A%A8%E7%9B%AE%E5%BD%95%E4%BF%A1%E6%81%AF%E7%9A%84%E8%8E%B7%E5%8F%96)
+>>>>>>> f97bd53a0c2494a5344178889f4690323a142806
 
 
 ## xmllint \(libxml2-utils\)
@@ -134,3 +138,52 @@ https://github.com/bcpierce00/unison/releases
 
 # ansible
 ansible-playbook -i /opt/ansible/haproxy_aws/hosts /opt/ansible/haproxy_aws/main.yml --limit 10.254.9.10
+
+
+# kubernetes
+## Kubernetes CI/CD 管道的构成要素
+Kubernetes 平台和 CI/CD 工作流程都旨在提高软件质量，以及自动化和提高开发速度。因此，公司受益于将 CI/CD 管道与 Kubernetes 结合使用。
+
+以下是基于 Kubernetes 的 CI/CD 管道的一些关键组件：
+
+- Containers Docker 等容器有助于实现应用程序组件的封装，同时通过运行时实现无缝集成。
+- Operating clusters 一旦 CI/CD 工具批准容器，运营集群就会为您的软件构建部署容器。
+- Configuration management 配置管理存储与基础设施设置相关的所有详细信息，并识别系统中新引入的任何更改。
+- A version control system (VCS)  版本控制系统 (VCS)是维护代码更改的统一源代码存储库。每当新的更改被推送到其存储库时，这都会生成 CI/CD 工具启动管道的触发器。
+- Image registries  镜像注册表存储 Docker 容器镜像。
+- Security testing and audits maintain  安全测试和审计通过确保管道免受潜在的安全威胁来维持应用程序的快速开发和安全性之间的平衡。
+- Continuous monitoring and observability  持续监控和可观察性使开发人员能够通过提供对应用程序生命周期的完整可见性来获得可操作的见解和指标。
+
+
+选择使用哪些工具比以往任何时候都更加困难。我们将如何开发我们的应用程序？我们如何管理不同的环境？我们将如何打包我们的应用程序？我们将应用哪个流程来实现应用程序生命周期？等等等等
+
+Jenkins X 固执己见。它定义了软件开发生命周期的许多方面，并为我们做出决策。它告诉我们要做什么以及如何做。它就像您假期中的导游，告诉您去哪里、看什么、何时拍照以及何时休息。同时，它非常灵活，允许高级用户对其进行调整以满足自己的需求。
+
+
+## ldapsearch
+
+这个测试环境中，我们获得了域内普通用户testa的口令为DomainUser123!
+
+连接命令如下：
+```
+ldapsearch -x -H ldap://192.168.1.1:389 -D "CN=testa,CN=Users,DC=test,DC=com" -w DomainUser123! -b "DC=test,DC=com"
+```
+参数说明：
+
+-x 进行简单认证
+-H 服务器地址
+-D 用来绑定服务器的DN
+-w 绑定DN的密码
+-b 指定要查询的根节点
+这条命令会显示所能查询到的所有信息，如下图
+
+接下来加入搜索条件，对结果进行分类
+
+(1)查询所有域用户
+加入搜索条件："(&(objectClass=user)(objectCategory=person))"
+
+完整命令如下：
+
+```
+ldapsearch -x -H ldap://192.168.1.1:389 -D "CN=testa,CN=Users,DC=test,DC=com" -w DomainUser123! -b "DC=test,DC=com" -b "DC=test,DC=com" "(&(objectClass=user)(objectCategory=person))"
+```
