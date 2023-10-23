@@ -514,6 +514,8 @@ server {
 - Folders
 - Active Directory
 - Active Choices
+- Extensible Choice ParameterVersion
+
 
 
 
