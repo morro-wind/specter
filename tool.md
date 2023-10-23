@@ -77,6 +77,7 @@
     + [parrotsec](https://www.parrotsec.org/download/)
     + [kali.org](https://www.kali.org/get-kali/#kali-platforms)
     
+- [sketch]
 
 
 ## xmllint \(libxml2-utils\)
