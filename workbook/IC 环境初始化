@@ -1,0 +1,11 @@
+IC 系统主机初始化
+1. AD DNS 创建相关反向解析域
+2. 设置系统主机名称(FQDN格式）
+3. 使用sssd 服务将系统加入AD 认证
+4. 确认正、反向解析是否正确
+
+增加.ssh/config 配置
+for i in "ForwardX11 yes" "ForwardX11Trusted yes" "StrictHostKeyChecking no" "UserKnownHostsFile /dev/null" "LogLevel ERROR" "TCPKeepAlive=yes" "ServerAliveInterval=60"
+do
+  grep "$i" ~/.ssh/config || echo "$i" >> ~/.ssh/config
+done
