@@ -33,3 +33,7 @@ https://www.lintcode.com/
 ## Todo
 1. C Primer Plus
 2. Linux-UNIX系统编程手册
+3. linux 二进制分析
+4. 持续集成
+5. 持续交付
+6. 项目自动化
