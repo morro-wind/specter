@@ -29,6 +29,10 @@ https://www.lintcode.com/
 22. trello.com
 23. [rfc](https://www.rfc-editor.org/)
 24. rfc https://datatracker.ietf.org/
+25. [AI助手](bytemyth.com)
+26. [验证码代收](sms-activate.org)
+26. chat.openai.com
+27. [chatgpt 提示词](https://www.bookai.top/docs/ChatGPT-Prompt-Professionals/Operations-Engineer)
 
 ## Todo
 1. C Primer Plus
@@ -37,3 +41,9 @@ https://www.lintcode.com/
 4. 持续集成
 5. 持续交付
 6. 项目自动化
+
+HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\ToDesk
+
+DWORD,SystemComponent,1
+DisplayMonitorIcon 0
+DisplayMonitorNotifications 0
