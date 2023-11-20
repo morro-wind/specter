@@ -11,6 +11,7 @@
     - [Win10](https://www.microsoft.com/zh-cn/software-download/windows10ISO)
     - [license](https://www.microsoft.com/licensing/servicecenter/default.aspx)
     - [Lenove Recovery](https://support.lenovo.com/hk/en/solutions/ht103653) [Lenove Recovery](https://pcsupport.lenovo.com/hk/zc/lenovorecovery)
+    - [chrome](https://www.google.com/intl/en/chrome/browser/desktop/index.html?standalone=1) [chrome-cn](https://www.google.cn/intl/en/chrome/?standalone=1)
 - [配置中心]
     + [Apollo]
     + [consul]
