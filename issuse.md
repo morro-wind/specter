@@ -149,3 +149,8 @@ iperf
     - 观察网络连接状态，发现反向sshd 连接
     - sshd TCPKeepAlive 配置会检查网络和连接主机状态，并在故障时中断连接
     - sshd ClientAliveInterval 会发送消息请求响应，ClientAliveCountMax 配置发送消息次数，达到次数后无数据会断开连接，0禁用连接终止
+    
+
+## git config
+git config http.postBuffer 1048576000
+git config https.postBuffer 1048576000
