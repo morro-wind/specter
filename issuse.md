@@ -154,3 +154,155 @@ iperf
 ## git config
 git config http.postBuffer 1048576000
 git config https.postBuffer 1048576000
+
+
+## rancher server ip 变更
+https://blog.csdn.net/RancherLabs/article/details/125302014
+
+
+## git常见错误及解决办法
+
+错误1
+`git push -u origin master`
+
+```
+# fatal: unable to access 'https://github.com/xxx/xxx.git/' OpenSSL SSL read: Connection was reset,err 10054
+```
+
+解决办法：
+SSL验证失败导致，可以直接禁止SSL验证
+
+`git config --global http.sslVerify "false"`
+
+官网关于http.sslVerify的说明如下：
+```
+Whether to verify the SSL certificate when fetching or pushing over HTTPS. Defaults to true. Can be overridden by the GIT_SSL_NO_VERIFY environment variable.
+```
+
+错误2
+```
+error: RPC failed curl 18 transfer closed with outstanding read data remaining
+send-pack: unexpected disconnect while reading sideband packet
+fatal: the remote end hung up unexpectedly
+Everything up-to-date
+```
+
+解决办法：
+
+缓存过小导致，可以尝试增大缓存
+
+`git config --gobal http.postBuffer 524288000`
+`# 单位byte，524288000=500M`
+
+官网关于 http.postBuffer的说明:
+```
+Maximum size in bytes of the buffer used by smart HTTP transports when POSTing data to the remote system. For requests larger than this buffer size, HTTP/1.1 and Transfer-Encoding: chunked is used to avoid creating a massive pack file locally. Default is 1 MiB, which is sufficient for most requests.
+
+Note that raising this limit is only effective for disabling chunked transfer encoding and therefore should be used only where the remote server or a proxy only supports HTTP/1.0 or is noncompliant with the HTTP standard. Raising this is not, in general, an effective solution for most push problems, but can increase memory consumption significantly since the entire buffer is allocated even for small pushes.
+```
+
+网络波动导致，可以尝试取消相关的网络限制
+
+```
+git config --gobal http.lowSpeedLimit 0
+git config --gobal http.lowSpeedTime 999999
+```
+
+官网关于http.lowSpeedLimit和http.lowSpeedTime的说明:
+
+```
+If the HTTP transfer speed is less than http.lowSpeedLimit for longer than http.lowSpeedTime seconds, the transfer is aborted. Can be overridden by the GIT_HTTP_LOW_SPEED_LIMIT and GIT_HTTP_LOW_SPEED_TIME environment variables.
+```
+
+若传输文件实在太大，可以尝试增大压缩率(压缩率大小根据实际情况设置)
+
+`git config --gobal core.compression 3`
+
+官网关于core.compression的说明:
+
+```
+An integer -1…9, indicating a default compression level. -1 is the zlib default. 0 means no compression, and 1…9 are various speed/size tradeoffs, 9 being slowest. If set, this provides a default to other compression variables, such as core.looseCompression and pack.compression.
+```
+
+## gitlab log
+https://www.cnblogs.com/bigyoung/p/14115944.html
+
+背景：
+公司抓信息安全，使用gitlab进行代码管理，要求所有用户的远程操作（推送、同步）都记录下来。
+
+通过查看Gitlab官方文档，整理信息如下：
+
+gitlab 后台的各种日志保存位置 /var/log/gitlab/
+
+production.log
+注意：本日志只记录通过http操作的日志
+
+存放目录：/var/log/gitlab/gitlab-rails/
+
+production_json.log里面是Json请求串。
+
+{
+    "method": "GET",
+    "path": "/test_user/test_project.git/info/refs",
+    "format": "*/*",
+    "controller": "Projects::GitHttpController",
+    "action": "info_refs",
+    "status": 200,
+    "duration": 268.22,
+    "view": 0.48,
+    "db": 14.41,
+    "time": "2019-06-27T10:59:56.324Z",
+    "params": [
+        {
+            "key": "service",
+            "value": "git-receive-pack"
+        },
+        {
+            "key": "namespace_id",
+            "value": "test_user"
+        },
+        {
+            "key": "project_id",
+            "value": "test_project.git"
+        }
+    ],
+    "remote_ip": "192.168.XX.XX",
+    "user_id": 3,
+    "username": "test_user",
+    "ua": "git/2.21.0.windows.1",
+    "queue_duration": null,
+    "correlation_id": "b02c02f9-0167-49bf-965f-e4cc86d6751f"
+}
+日志中有价值的信息：
+
+同步动作：service：git-receive-pack
+推送操作：service：git-upload-pack
+项目名： project_id：test_project.git
+IP地址：remote_ip：192.168.XX.XX
+用户名： username：test_user
+时间：time：2019-06-27T10:59:56.324Z（UTC格式，加上8个小时等于北京时间）
+状态：status：200 （200表示操作成功，其他表示失败）
+动作信息：action：info_refs （每次同步、推送操作出现的标志，需要通过这个字段来来筛选日志是否是更新或者推送操作）
+对存在Json嵌套的数据操作，建议看看这篇文章，能够提高工作效率。
+Go 如何优雅的获取嵌套Json数据内容
+
+gitlab-shell.log
+**注意：此日志只记录Gitclone协议的操作
+
+日志目录：/var/log/gitlab/gitlab-shell
+以下日志就不是Json格式了，需要自己对字符串进行操作处理。
+
+time="2019-07-02T11:17:48+08:00" level=info msg="executing git command" command="gitaly-receive-pack unix:/var/opt/gitlab/gitaly/gitaly.socket {\"repository\":{\"storage_name\":\"default\",\"relative_path\":\"test_user/test_project.git\",\"git_object_directory\":\"\",\"git_alternate_object_directories\":[],\"gl_repository\":\"project-5\",\"gl_project_path\":\"test_user/test_project\"},\"gl_repository\":\"project-5\",\"gl_project_path\":\"test_user/test_project\",\"gl_id\":\"key-3\",\"gl_username\":\"test_user\",\"git_config_options\":[],\"git_protocol\":null}" pid=23657 user="user with id key-3"
+日志中有价值的信息：
+
+同步动作：command：gitaly-receive-pack
+推送操作：command：gitaly-upload-pack
+项目名： gl_project_path：test_user/test_project
+IP地址：remote_ip：192.168.XX.XX
+用户名： gl_username：test_user
+时间：time：2019-07-02T11:17:48+08:00（UTC格式，加上8个小时等于北京时间）
+状态：status：200 （200表示操作成功，其他表示失败）
+动作信息：action：info_refs （每次同步、推送操作出现的标志，需要通过这个字段来来筛选日志是否是更新或者推送操作）
+参考文档：
+
+Gitlab官方日志解释文档 https://docs.gitlab.com/ee/administration/logs/
