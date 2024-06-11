@@ -6,6 +6,10 @@ lpi exam 701 devops
 
 [https://www.lpi.org/our-certifications/exam-701-objectives](https://www.lpi.org/our-certifications/exam-701-objectives)
 
+## blktrace+fio实现IO回放
+fio
+blktrace
+
 ## 标准输入口令
 echo -n "passwd" | passwd --stdin
 
