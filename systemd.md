@@ -9,3 +9,7 @@ systemd 单元文件位置，如果冲突，则/etc中的文件拥有最高的�
 
 ### 本地单元及自定义配置
 `/etc/systemd/system`
+
+
+### cpu turbo
+ https://huataihuang.gitbooks.io/cloud-atlas/content/os/linux/kernel/cpu/intel_turbo_boost_and_pstate.html
