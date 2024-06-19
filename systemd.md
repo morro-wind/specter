@@ -13,3 +13,5 @@ systemd 单元文件位置，如果冲突，则/etc中的文件拥有最高的�
 
 ### cpu turbo
  https://huataihuang.gitbooks.io/cloud-atlas/content/os/linux/kernel/cpu/intel_turbo_boost_and_pstate.html
+
+ https://docs.aws.amazon.com/zh_cn/linux/al2/ug/processor_state_control.html
