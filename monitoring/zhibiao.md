@@ -1,3 +1,7 @@
+https://cloud.google.com/monitoring/agent/process-metrics?hl=zh-cn
+https://cloud.google.com/compute/docs/troubleshooting/troubleshooting-performance?hl=zh-cn
+
+
 主机资源：USE使用率、饱和度、错误 
 CPU
 内存

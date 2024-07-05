@@ -1,10 +1,29 @@
 {
-  "data-root": "/data/docker",
+  "builder": {
+    "gc": {
+      "defaultKeepStorage": "50GB",
+      "enabled": true
+    }
+  },
+  "data-root": "/srv/lib/docker",
   "selinux-enabled": true,
-  "log-driver": "json-file",
-  "log-opts": {
-    "max-size": "10m",
+  "default-address-pools": [
+    {
+      "base": "192.0.2.0/24",
+      "size": 24
+    }
+  ],
+
+  "icc": false,
+  //"log-driver": "json-file",
+  /*"log-opts": {
+    "max-size": "1g",
     "max-file": "3",
     "compress": "true"
+  */}
+  "log-driver": "syslog",
+  "log-opts": {
+    "syslog-address": "tcp://172.28.128.52:514",
+    "syslog-facility": "local0" 
   }
 }
