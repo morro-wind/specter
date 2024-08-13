@@ -306,3 +306,145 @@ IP地址：remote_ip：192.168.XX.XX
 参考文档：
 
 Gitlab官方日志解释文档 https://docs.gitlab.com/ee/administration/logs/
+
+
+### Too many objects for client
+
+```journal -u dbus``` 
+
+I have almost 300 physical host,and each physical host running about 60 docker containers . I think maybe it is too much ,and almost docker containers are running mysql test ,I don't kown if it is resulting in too much connections ,but I don't think it is this reason;
+
+I think it relates to this issue:
+https://github.com/systemd/systemd/issues/1961
+and
+https://bugs.freedesktop.org/show_bug.cgi?id=95263
+
+As we can see, it has bellow phenomenon:
+1. when I login these problem docker container delay 25 s
+2. login in container run ```journal -u dbus``` you will see
+
+```
+Apr 02 07:51:01 docker011160.xxx dbus-daemon[80]: Failed to close file descriptor: Could not close fd 10
+Apr 02 07:57:01 docker011160.xxx dbus-daemon[80]: Failed to close file descriptor: Could not close fd 270
+Apr 02 08:34:01 docker011160.xxx dbus-daemon[80]: Failed to close file descriptor: Could not close fd 10
+Apr 02 08:35:01 docker011160.xxx dbus-daemon[80]: Failed to close file descriptor: Could not close fd 10
+Apr 02 10:33:01 docker011160.xxx dbus-daemon[80]: Failed to close file descriptor: Could not close fd 10
+Apr 02 11:44:01 docker011160.xxx dbus-daemon[80]: Failed to close file descriptor: Could not close fd 273
+Apr 02 12:04:01 docker011160.xxx dbus-daemon[80]: Failed to close file descriptor: Could not close fd 273
+Apr 02 12:09:02 docker011160.xxx dbus-daemon[80]: Failed to close file descriptor: Could not close fd 273
+Apr 02 16:16:01 docker011160.xxx dbus-daemon[80]: Failed to close file descriptor: Could not close fd 273
+Apr 02 22:08:01 docker011160.xxx dbus-daemon[80]: Failed to close file descriptor: Could not close fd 273
+Apr 03 00:51:01 docker011160.xxx dbus-daemon[80]: Failed to close file descriptor: Could not close fd 10
+....
+...
+
+Apr 19 01:45:57 docker011160.xxx dbus-daemon[129907]: dbus[129907]: [system] Failed to activate service 'org.freedesktop.login1': timed out
+Apr 19 01:46:01 docker011160.xxx dbus[129907]: [system] Activating via systemd: service name='org.freedesktop.login1' unit='dbus-org.freedesktop.login1.service'
+Apr 19 01:46:01 docker011160.xxx dbus-daemon[129907]: dbus[129907]: [system] Activating via systemd: service name='org.freedesktop.login1' unit='dbus-org.freedesktop.login1.service'
+Apr 19 01:46:26 docker011160.xxx dbus[129907]: [system] Failed to activate service 'org.freedesktop.login1': timed out
+Apr 19 01:46:26 docker011160.xxx dbus-daemon[129907]: dbus[129907]: [system] Failed to activate service 'org.freedesktop.login1': timed out
+Apr 19 01:46:32 docker011160.xxx dbus[129907]: [system] Activating via systemd: service name='org.freedesktop.login1' unit='dbus-org.freedesktop.login1.service'
+Apr 19 01:46:32 docker011160.xxx dbus-daemon[129907]: dbus[129907]: [system] Activating via systemd: service name='org.freedesktop.login1' unit='dbus-org.freedesktop.login1.service'
+Apr 19 01:46:57 docker011160.xxx dbus[129907]: [system] Failed to activate service 'org.freedesktop.login1': timed out
+Apr 19 01:46:57 docker011160.xxx dbus-daemon[129907]: dbus[129907]: [system] Failed to activate service 'org.freedesktop.login1': timed out
+Apr 19 01:47:02 docker011160.xxx dbus[129907]: [system] Activating via systemd: service name='org.freedesktop.login1' unit='dbus-org.freedesktop.login1.service'
+Apr 19 01:47:02 docker011160.xxx dbus-daemon[129907]: dbus[129907]: [system] Activating via systemd: service name='org.freedesktop.login1' unit='dbus-org.freedesktop.login1.service'
+Apr 19 01:47:27 docker011160.xxx dbus[129907]: [system] Failed to activate service 'org.freedesktop.login1': timed out
+Apr 19 01:47:27 docker011160.xxx dbus-daemon[129907]: dbus[129907]: [system] Failed to activate service 'org.freedesktop.login1': timed out
+Apr 19 01:47:29 docker011160.xxx dbus[129907]: [system] Activating via systemd: service name='org.freedesktop.login1' unit='dbus-org.freedesktop.login1.service'
+Apr 19 01:47:29 docker011160.xxx dbus-daemon[129907]: dbus[129907]: [system] Activating via systemd: service name='org.freedesktop.login1' unit='dbus-org.freedesktop.login1.service'
+Apr 19 01:47:54 docker011160.xxx dbus[129907]: [system] Failed to activate service 'org.freedesktop.login1': timed out
+Apr 19 01:47:54 docker011160.xxx dbus-daemon[129907]: dbus[129907]: [system] Failed to activate service 'org.freedesktop.login1': timed out
+Apr 19 01:48:00 docker011160.xxx dbus[129907]: [system] Activating via systemd: service name='org.freedesktop.login1' unit='dbus-org.freedesktop.login1.service'
+```
+
+top will see systemd-logind dbus-daemon too high:
+
+```
+   PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+ 91255 root      20   0   50344  18000   1404 R  76.0  0.0   0:25.84 systemd-logind
+    79 dbus      20   0   34348   9024   1216 S  12.7  0.0   2761:36 dbus-daemon
+  6941 mysql     20   0 1989064 280536   7288 S   1.5  0.1 865:02.70 mysqld
+
+```
+
+systemd-logind.service restart almost every minutes
+
+```
+Apr 29 06:29:57 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:30:57 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:31:58 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:32:59 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:34:00 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:35:02 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:36:04 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:37:04 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:38:05 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:39:07 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:40:08 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:41:09 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:42:10 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:43:10 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:44:12 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:45:14 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:46:14 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+Apr 29 06:47:15 docker01116.xxx systemd[1]: systemd-logind.service has no holdoff time, scheduling restart.
+```
+
+There are too many abandon scopes
+
+```
+#systemctl | grep abandon | wc -l
+25207
+
+#systemctl | grep abandon  | grep mysql | wc -l
+8799
+
+#systemctl | grep abandon  | grep agent | wc -l
+9224
+```
+
+man systemd.scope  we all know, Scope units are not configured via unit configuration files, but are only created programmatically using the bus interfaces of systemd
+
+busctl can't see immornal problem
+
+```
+#busctl
+NAME                              PID PROCESS         USER             CONNECTION    UNIT                      SESSION    DESCRIPTION
+:1.0                                1 systemd         root             :1.0          -                         -          -
+:1.2011552                      99310 polkitd         polkitd          :1.2011552    polkit.service            -          -
+:1.2028946                      86791 systemd-logind  root             :1.2028946    systemd-logind.service    -          -
+:1.2028954                      86976 su              root             :1.2028954    session-2950.scope        2950       -
+:1.2028955                      87001 su              root             :1.2028955    session-2950.scope        2950       -
+:1.2028956                      87011 su              root             :1.2028956    session-2950.scope        2950       -
+:1.2028957                      87254 busctl          root             :1.2028957    sshd.service              -          -
+net.reactivated.Fprint              - -               -                (activatable) -                         -
+org.freedesktop.DBus                - -               -                -             -                         -          -
+org.freedesktop.PolicyKit1      99310 polkitd         polkitd          :1.2011552    polkit.service            -          -
+org.freedesktop.hostname1           - -               -                (activatable) -                         -
+org.freedesktop.locale1             - -               -                (activatable) -                         -
+org.freedesktop.login1          86791 systemd-logind  root             :1.2028946    systemd-logind.service    -          -
+org.freedesktop.machine1            - -               -                (activatable) -                         -
+org.freedesktop.systemd1            1 systemd         root             :1.0          -                         -          -
+org.freedesktop.timedate1           - -               -                (activatable) -                         -
+
+```
+
+
+Look at logs ,it looks like first ```dbus-daemon[80]: Failed to close file descriptor: Could not close fd xxx
+``` and then ```dbus alway active service 'org.freedesktop.login1' : timed out```
+
+
+My try:
+1. Just only restart dbus or systemd-login ,this problem will have.
+2. If excute command 
+```systemctl | grep "abandoned" | grep -e "-[[:digit:]]" | sed "s/\.scope.*/.scope/" | xargs systemctl stop```  this problem will be solved short-lived
+
+This can not fundamentally solve this problem
+
+SO, I try to backport this patch to dbus:
+1. Only backport this patch: https://bugs.freedesktop.org/page.cgi?id=splinter.html&bug=95263&attachment=124841  ----->   problem still exist,abandon scopes still increasing
+2. Only backport this patch: https://bugs.freedesktop.org/page.cgi?id=splinter.html&bug=95263&attachment=124842
+-----> problem still exsit,abandon scopes still increasing
+
+we can see dbus changelog(https://cgit.freedesktop.org/dbus/dbus/tree/NEWS?h=master):
