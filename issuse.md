@@ -448,3 +448,36 @@ SO, I try to backport this patch to dbus:
 -----> problem still exsit,abandon scopes still increasing
 
 we can see dbus changelog(https://cgit.freedesktop.org/dbus/dbus/tree/NEWS?h=master):
+
+
+### docker swarm change swarm host ip
+
+1. 将文件 docker/swarm/docker-state.json(默认/var/lib) 内ip地址修改为现在对应节点ip地址
+2. 重启docker 服务
+3. 利用iptable 将原ip 地址重定向到现ip 地址
+4. 将manager node demote 为worker node，降级成功后重新将节点promote 为manager node
+5. 重启变更节点的docker服务
+6. docker info 查看swarm manager ip列表
+
+example 集群原host ip addr `192.168.10.10`，变更地址后 host ip addr `10.20.30.10`，node2 id `yaat8oym9`
+
+manager node1
+```
+# vim docker/swarm/docker-state.json
+# systemctl stop docker
+# systemctl start docker
+# iptables -t nat -A OUTPUT -d 192.168.10.10 -j DNAT --to-destination 10.20.30.10
+# docker node demote yaat8oym9
+# docker node promote yaat8oym9
+```
+
+manager node2
+```
+# vim docker/swarm/docker-state.json
+# systemctl stop docker
+# systemctl start docker
+# iptables -t nat -A OUTPUT -d 192.168.10.10 -j DNAT --to-destination 10.20.30.10
+# systemctl stop docker
+# systemctl start docker
+# docker info
+```
