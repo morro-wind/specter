@@ -109,6 +109,7 @@ https://sssd.io/release-notes/sssd-2.4.0.html
 
 ### ERR_SSL_PROTOCOL_ERROR
 域名访问ERR_SSL_PROTOCOL_ERROR，域名未备案，tls 加密算法无法通过拦截
+修改加密算法
 `ssl_ciphers         ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA384:CDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:AES128-GCM-SHA256:ES128-SHA:AES256-SHA256:AES256-SHA;`
 
 
@@ -481,3 +482,16 @@ manager node2
 # systemctl start docker
 # docker info
 ```
+
+
+### rancher Cluster: local Wait Check-In
+1.  WaitApplied(1) [Bundle fleet-agent-local]
+    查看  fleet-agent pod 日志报错信息
+    ```logs
+    time="2025-03-11T08:28:10Z" level=info msg="Waiting for secret 'cattle-fleet-clusters-system/c-df2e2577ba4e0acb9ea1f8f126234d107caebcd7f8a27b6417923b79ca162' on management cluster for request 'fleet-local/request-ctzjm': secrets \"c-df2e2577ba4e0acb9ea1f8f126234d107caebcd7f8a27b6417923b79ca162\" not found"
+
+    Failed to register agent: registration failed: cannot create clusterregistration on management cluster for cluster id 'lsjj4rxdmwld2w7tmmjncl8qsmqp8djc2g4wt6lf2c2q4bccnp9wjf': Unauthorized"
+    ```
+    确认访问rancher的域名是否做了公网解析，如未做公网解析，需要在coredns 增加解析。
+    `API` -> `CustomResourceDefinitions` ,搜索`.fleet.cattle.io`，删除全部结果，`Apps`-> `Installed Apps`，选择`Namespace: cattle-fleet-system` upgrade，重新部署fleet
+2.  
