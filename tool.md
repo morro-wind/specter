@@ -77,8 +77,8 @@
     + [pentoo](https://pentoo.org/downloads)
     + [parrotsec](https://www.parrotsec.org/download/)
     + [kali.org](https://www.kali.org/get-kali/#kali-platforms)
-
-    
+- [DNSCheck](whatsmydns.me)
+- [IPReputationChecker](check.spamhaus.org)   
 - [sketch]
 
 - [ldapserch](https://3gstudent.github.io/%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80-%E6%B4%BB%E5%8A%A8%E7%9B%AE%E5%BD%95%E4%BF%A1%E6%81%AF%E7%9A%84%E8%8E%B7%E5%8F%96)
@@ -188,3 +188,6 @@ ldapsearch -x -H ldap://192.168.1.1:389 -D "CN=testa,CN=Users,DC=test,DC=com" -w
 ```
 ldapsearch -x -H ldap://192.168.1.1:389 -D "CN=testa,CN=Users,DC=test,DC=com" -w DomainUser123! -b "DC=test,DC=com" -b "DC=test,DC=com" "(&(objectClass=user)(objectCategory=person))"
 ```
+
+coremail
+userutil --dump-msg xxx@xxx.xxx mid=xxxxxxxxxxxxxxxxxxxxxx
