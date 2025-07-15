@@ -494,4 +494,4 @@ manager node2
     ```
     确认访问rancher的域名是否做了公网解析，如未做公网解析，需要在coredns 增加解析。
     `API` -> `CustomResourceDefinitions` ,搜索`.fleet.cattle.io`，删除全部结果，`Apps`-> `Installed Apps`，选择`Namespace: cattle-fleet-system` upgrade，重新部署fleet
-2.  
+2.  webhook timeout
