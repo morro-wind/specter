@@ -30,6 +30,7 @@
     + [ebook](https://alist.guoch.xyz:26443/)
     + [ebook](honeypdf.com)
 - https://guoch.xyz/
+- [获取TLS 证书](https://support.google.com/a/answer/6180220?hl=zh-Hans)
 
 # Secure
 
@@ -1490,3 +1491,32 @@ JVM_SUPPORT_RECOMMENDED_ARGS="-Datlassian.recovery.password=<your-password>"
 7. 停止服务
 8. 删除您之前添加的系统属性
 9. 使用常用方法（手动或启动服务）重新启动
+
+
+### 获取TLS 证书
+
+#### 如何访问 TLS 证书
+您可以通过以下任一方式访问入站和出站传输层安全协议 (TLS) 证书：
+
+运行以下命令：
+```
+openssl s_client -starttls smtp -connect [hostname]:25 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
+```
+
+使用以下 Python 代码段：
+
+```
+import smtplib
+import ssl
+
+connection = smtplib.SMTP()
+connection.connect('[hostname].')
+connection.starttls()
+print(ssl.DER_cert_to_PEM_cert(connection.sock.getpeercert(binary_form=True)))
+```
+
+对于 [hostname]，请使用正确的值（如下所示）：
+
+入站 SMTP - aspmx.l.google.com
+出站（SMTP 中继）- smtp-relay.gmail.com
+出站 (MSA) - smtp.gmail.com
